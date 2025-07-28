@@ -1,4 +1,4 @@
-package com.projeto.model;
+package com.projeto.DAOs;
 
 import java.sql.*;
 

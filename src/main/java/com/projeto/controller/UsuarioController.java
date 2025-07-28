@@ -1,3 +1,4 @@
+package com.projeto.controller;
 import com.projeto.model.Usuario;
 
 public class UsuarioController {

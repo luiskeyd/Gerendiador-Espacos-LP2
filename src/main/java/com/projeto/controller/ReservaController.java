@@ -1,4 +1,4 @@
-package com.projeto.cotroller;
+package com.projeto.controller;
 
 public class ReservaController {
     

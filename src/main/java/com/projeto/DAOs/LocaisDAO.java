@@ -1,11 +1,8 @@
-package com.projeto.model;
+package com.projeto.DAOs;
 
 import java.sql.*;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
-public class ReservaDAO {
+public class LocaisDAO {
     private static final String URL = "jdbc:mysql://localhost:3306/reserva_espacos";
     private static final String USER = "root";
     private static final String PASSWORD = "12345";
