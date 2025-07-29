@@ -32,7 +32,7 @@ public class Cadastro extends JFrame {
     final JPasswordField campo_chaveAcesso = new JPasswordField(20);
 
     // Controller
-    private UsuarioController controller;
+    final UsuarioController controller;
 
     public Cadastro() {
         super("Gerenciador de Espaços");

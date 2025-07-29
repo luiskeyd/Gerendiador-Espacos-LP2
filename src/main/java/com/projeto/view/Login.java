@@ -28,7 +28,7 @@ public class Login extends JFrame {
     final JButton cadastro = new JButton("Cadastrar");
 
     // Controller
-    private UsuarioController controller;
+    final UsuarioController controller;
 
     public Login() {
         // DEFINIÇÕES BASES

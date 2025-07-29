@@ -15,13 +15,6 @@ public abstract class Locais {
         setReservado(reservado);
     }
 
-    // Construtor que aceita boolean para reservado (para compatibilidade)
-    public Locais(String nome, int capacidade,
-                  String localizacao, boolean reservado){
-        this(nome, capacidade, localizacao,
-                reservado ? "Ocupada" : "Disponível");
-    }
-
     public void setNome(String nome){
         this.nome = nome;
     }

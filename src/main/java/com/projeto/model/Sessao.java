@@ -12,24 +12,11 @@ public class Sessao {
         }
         return instancia;
     }
-
     public void setUsuarioLogado(Usuario usuario) {
         this.usuarioLogado = usuario;
     }
 
-    public Usuario getUsuarioLogado() {
-        return this.usuarioLogado;
-    }
-
     public boolean isAdmin() {
         return usuarioLogado != null && "ADMIN".equalsIgnoreCase(usuarioLogado.getTipo());
-    }
-
-    public boolean isUsuarioComum() {
-        return usuarioLogado != null && "COMUM".equalsIgnoreCase(usuarioLogado.getTipo());
-    }
-
-    public void encerrarSessao() {
-        usuarioLogado = null;
     }
 }

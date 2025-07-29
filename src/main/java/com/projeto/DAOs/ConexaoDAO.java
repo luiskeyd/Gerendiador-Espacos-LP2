@@ -4,7 +4,7 @@ import java.sql.*;
 
 public class ConexaoDAO {
     // Configurações do banco de dados
-    private static final String URL = "jdbc:mysql://localhost:3306/gerenciador";
+    private static final String URL = "jdbc:mysql://26.183.126.113:3306/gerenciador";
     private static final String USER = "root";
     private static final String PASSWORD = "1234";
 
@@ -49,51 +49,6 @@ public class ConexaoDAO {
             }
 
             throw e;
-        }
-    }
-
-    // Método para testar a conexão
-    public static boolean testarConexao() {
-        try (Connection conn = conectar()) {
-            return conn != null && !conn.isClosed();
-        } catch (SQLException e) {
-            System.err.println("Teste de conexão falhou: " + e.getMessage());
-            return false;
-        }
-    }
-
-    // Método main para testar a conexão
-    public static void main(String[] args) {
-        System.out.println("=== TESTE DE CONEXÃO COM BANCO DE DADOS ===");
-
-        if (testarConexao()) {
-            System.out.println("✅ Conexão testada com SUCESSO!");
-
-            // Testar se as tabelas existem
-            try (Connection conn = conectar()) {
-                DatabaseMetaData metaData = conn.getMetaData();
-
-                String[] tabelas = {"usuarios", "locais", "reservas"};
-                for (String tabela : tabelas) {
-                    ResultSet rs = metaData.getTables(null, null, tabela, null);
-                    if (rs.next()) {
-                        System.out.println("✅ Tabela '" + tabela + "' encontrada");
-                    } else {
-                        System.out.println("❌ Tabela '" + tabela + "' NÃO encontrada");
-                    }
-                }
-
-            } catch (SQLException e) {
-                System.err.println("Erro ao verificar tabelas: " + e.getMessage());
-            }
-
-        } else {
-            System.out.println("❌ FALHA na conexão!");
-            System.out.println("\nVerifique:");
-            System.out.println("1. MySQL está rodando?");
-            System.out.println("2. Banco 'gerenciador' foi criado?");
-            System.out.println("3. Usuário e senha estão corretos?");
-            System.out.println("4. Driver MySQL está no classpath?");
         }
     }
 }

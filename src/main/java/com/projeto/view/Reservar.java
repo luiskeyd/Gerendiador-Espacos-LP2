@@ -43,7 +43,7 @@ public class Reservar extends JFrame {
     final JButton botaoReservar = new JButton("RESERVAR SALA");
     final JButton botaoVoltar = new JButton("Voltar");
 
-    private List<Salas> listaSalas = new ArrayList<>();
+    final List<Salas> listaSalas = new ArrayList<>();
     private Salas salaAtualSelecionada = null;
 
     public Reservar() {
@@ -123,15 +123,6 @@ public class Reservar extends JFrame {
         center.setHorizontalAlignment(JLabel.CENTER);
         for (int i = 0; i < tabelaSalas.getColumnCount(); i++)
             tabelaSalas.getColumnModel().getColumn(i).setCellRenderer(center);
-
-        // tabelaSalas.getColumnModel().getColumn(4).setCellRenderer(new DefaultTableCellRenderer() {
-        //     public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
-        //         JLabel cell = (JLabel) super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-        //         cell.setHorizontalAlignment(JLabel.CENTER);
-        //         cell.setForeground("Disponível".equals(value) ? new Color(30, 150, 30) : Color.RED);
-        //         return cell;
-        //     }
-        // });
 
         comboHorarios.setFont(fonteLabel);
         comboHorarios.setBackground(Color.WHITE);
@@ -248,18 +239,13 @@ private JPanel criarPainelCadastroSala() {
             }
 
             Locais novaSala;
-            switch (tipo) {
-                case "Laboratorio":
-                    novaSala = new Laboratorio(nome, capacidade, localizacao, "Disponível"); break;
-                case "Sala_de_reuniao":
-                    novaSala = new Sala_de_reuniao(nome, capacidade, localizacao, "Disponível"); break;
-                case "Quadra":
-                    novaSala = new Quadra(nome, capacidade, localizacao, "Disponível"); break;
-                case "Auditorio":
-                    novaSala = new Auditorio(nome, capacidade, localizacao, "Disponível"); break;
-                default:
-                    novaSala = new Sala_de_aula(nome, capacidade, localizacao, "Disponível");
-            }
+            novaSala = switch (tipo) {
+                case "Laboratorio" -> new Laboratorio(nome, capacidade, localizacao, "Disponível");
+                case "Sala_de_reuniao" -> new Sala_de_reuniao(nome, capacidade, localizacao, "Disponível");
+                case "Quadra" -> new Quadra(nome, capacidade, localizacao, "Disponível");
+                case "Auditorio" -> new Auditorio(nome, capacidade, localizacao, "Disponível");
+                default -> new Sala_de_aula(nome, capacidade, localizacao, "Disponível");
+            };
 
             new LocaisDAO().adicionar(novaSala);
             listaSalas.add(new Salas(nome, tipo, capacidade, localizacao, "Disponível"));
@@ -343,8 +329,8 @@ private JPanel criarPainelCadastroSala() {
     }
 
     public static class Salas {
-        private String nome, tipo, localizacao, status;
-        private int capacidade;
+        final String nome, tipo, localizacao, status;
+        final int capacidade;
         public Salas(String nome, String tipo, int capacidade, String localizacao, String status) {
             this.nome = nome; this.tipo = tipo; this.capacidade = capacidade;
             this.localizacao = localizacao; this.status = status;
