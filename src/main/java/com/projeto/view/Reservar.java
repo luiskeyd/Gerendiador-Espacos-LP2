@@ -10,6 +10,10 @@ import java.awt.*;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import org.jdatepicker.impl.*;
+import java.util.Properties;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class Reservar extends JFrame {
     final Color azul_claro = new Color(64, 150, 255);
@@ -45,6 +49,11 @@ public class Reservar extends JFrame {
 
     private List<Salas> listaSalas = new ArrayList<>();
     private Salas salaAtualSelecionada = null;
+
+    private JList<String> listaSalasDisponiveisJList;
+    private UtilDateModel dateModel;
+    private JDatePickerImpl datePicker;
+    private JComboBox<String> comboHorariosNovo;
 
     public Reservar() {
         super("Gerenciador de Espaços - Reservas");
@@ -175,13 +184,111 @@ public class Reservar extends JFrame {
 
         JTabbedPane abas = new JTabbedPane();
         abas.addTab("Salas Disponíveis", painelCentral);
-        abas.addTab("Reservar Sala", painelFormulario);
+        abas.addTab("Reservar Sala", criarPainelReservaSala());
+        abas.addChangeListener(e -> fecharPopupCalendario());
+        
         if (Sessao.getInstancia().isAdmin()) {
             abas.addTab("Cadastrar Nova Sala", criarPainelCadastroSala());
         }
 
+        
         painelPrincipal.add(painelSuperior, BorderLayout.NORTH);
         painelPrincipal.add(abas, BorderLayout.CENTER);
+    }
+    private JPanel criarPainelReservaSala() {
+        JPanel painel = new JPanel(new GridBagLayout());
+        painel.setBackground(azul_claro);
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.insets = new Insets(10, 10, 10, 10);
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+
+        // --- Lista de Salas Disponíveis ---
+        JLabel labelSalas = new JLabel("Salas Disponíveis:");
+        labelSalas.setFont(fonteLabel);
+        listaSalasDisponiveisJList = new JList<>(listarNomesSalasDisponiveis());
+        listaSalasDisponiveisJList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        JScrollPane scrollSalas = new JScrollPane(listaSalasDisponiveisJList);
+        scrollSalas.setPreferredSize(new Dimension(150, 80));
+
+        gbc.gridx = 0; gbc.gridy = 0; painel.add(labelSalas, gbc);
+        gbc.gridy = 1; painel.add(scrollSalas, gbc);
+
+        // --- Campo de Data ---
+        JLabel labelData = new JLabel("Data da Reserva:");
+        labelData.setFont(fonteLabel);
+
+        Properties p = new Properties();
+        p.put("text.today", "Hoje");
+        p.put("text.month", "Mês");
+        p.put("text.year", "Ano");
+        dateModel = new UtilDateModel();
+        JDatePanelImpl datePanel = new JDatePanelImpl(dateModel, p);
+        datePicker = new JDatePickerImpl(datePanel, new FormatarData());
+
+        gbc.gridy = 2; painel.add(labelData, gbc);
+        gbc.gridy = 3; painel.add(datePicker, gbc);
+
+        // --- Campo de Horário ---
+        JLabel labelHorario = new JLabel("Horário:");
+        labelHorario.setFont(fonteLabel);
+
+        comboHorariosNovo = new JComboBox<>(new String[] {
+            "08:00 - 10:00", "10:00 - 12:00", "14:00 - 16:00", "16:00 - 18:00"
+        });
+
+        gbc.gridy = 4; painel.add(labelHorario, gbc);
+        gbc.gridy = 5; painel.add(comboHorariosNovo, gbc);
+
+        // --- Botão Reservar ---
+        JButton botaoReservarNovo = new JButton("Reservar");
+        estilizarBotao(botaoReservarNovo);
+        gbc.gridy = 6;
+        painel.add(botaoReservarNovo, gbc);
+
+        botaoReservarNovo.addActionListener(e -> realizarReservaNova());
+
+        return painel;
+    }
+
+    private void realizarReservaNova() {
+        String salaSelecionada = listaSalasDisponiveisJList.getSelectedValue();
+        datePicker.getJFormattedTextField().postActionEvent();
+        Date dataSelecionada = (Date) datePicker.getModel().getValue();
+        if (dataSelecionada == null) {
+            JOptionPane.showMessageDialog(this, "Selecione uma data válida.", "Erro", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        String horarioSelecionado = (String) comboHorariosNovo.getSelectedItem();
+
+        if (salaSelecionada == null || dataSelecionada == null || horarioSelecionado == null) {
+            JOptionPane.showMessageDialog(this, "Selecione sala, data e horário!", "Aviso", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        JOptionPane.showMessageDialog(this,
+                "Reserva realizada com sucesso!\n" +
+                        "Sala: " + salaSelecionada + "\n" +
+                        "Data: " + sdf.format(dataSelecionada) + "\n" +
+                        "Horário: " + horarioSelecionado,
+                "Reserva Confirmada", JOptionPane.INFORMATION_MESSAGE);
+
+        listaSalasDisponiveisJList.clearSelection();
+        dateModel.setValue(null);
+        comboHorariosNovo.setSelectedIndex(0);
+    }
+
+    private String[] listarNomesSalasDisponiveis() {
+        return listaSalas.stream()
+            .filter(s -> s.getStatus().equalsIgnoreCase("Disponível"))
+            .map(Salas::getNome)
+            .toArray(String[]::new);
+    }
+
+    private void fecharPopupCalendario() {
+    if (datePicker != null) {
+        datePicker.getJFormattedTextField().requestFocus(); // força o popup a fechar
+    }
     }
 
 private JPanel criarPainelCadastroSala() {
