@@ -8,7 +8,7 @@ import java.util.List;
 public class LocaisDAO {
 
     public void adicionar(Locais local) throws SQLException {
-        String sql = "INSERT INTO locais (nome, tipo, capacidade, localizacao, horario_disponivel, reservado) " +
+        String sql = "INSERT INTO locais (NOME, TIPO, CAPACIDADE, LOCALIZACAO, reservado) " +
                 "VALUES (?, ?, ?, ?, ?, ?)";
 
         try (Connection con = ConexaoDAO.conectar();
@@ -18,8 +18,7 @@ public class LocaisDAO {
             stmt.setString(2, local.getClass().getSimpleName());
             stmt.setInt(3, local.getCapacidade());
             stmt.setString(4, local.getLocalizacao());
-            stmt.setString(5, local.getHorarioDisponivel());
-            stmt.setString(6, local.getReservado());
+            stmt.setInt(5, 0);           
 
             stmt.executeUpdate();
         }
@@ -72,7 +71,7 @@ public class LocaisDAO {
 
     public void atualizar(Locais local, int id) throws SQLException {
         String sql = "UPDATE locais SET nome = ?, tipo = ?, capacidade = ?, localizacao = ?, " +
-                "horario_disponivel = ?, reservado = ? WHERE id = ?";
+                "reservado = ? WHERE id = ?";
 
         try (Connection con = ConexaoDAO.conectar();
              PreparedStatement stmt = con.prepareStatement(sql)) {
@@ -81,9 +80,8 @@ public class LocaisDAO {
             stmt.setString(2, local.getClass().getSimpleName());
             stmt.setInt(3, local.getCapacidade());
             stmt.setString(4, local.getLocalizacao());
-            stmt.setString(5, local.getHorarioDisponivel());
-            stmt.setString(6, local.getReservado());
-            stmt.setInt(7, id);
+            stmt.setString(5, local.getReservado());
+            stmt.setInt(6, id);
 
             stmt.executeUpdate();
         }
@@ -94,20 +92,19 @@ public class LocaisDAO {
         String nome = rs.getString("nome");
         int capacidade = rs.getInt("capacidade");
         String localizacao = rs.getString("localizacao");
-        String horario = rs.getString("horario_disponivel");
         String reservado = rs.getString("reservado");
 
         switch (tipo) {
             case "Sala_de_aula":
-                return new Sala_de_aula(nome, horario, capacidade, localizacao, reservado);
+                return new Sala_de_aula(nome, capacidade, localizacao, reservado);
             case "Laboratorio":
-                return new Laboratorio(nome, horario, capacidade, localizacao, reservado);
+                return new Laboratorio(nome, capacidade, localizacao, reservado);
             case "Sala_de_reuniao":
-                return new Sala_de_reuniao(nome, horario, capacidade, localizacao, reservado);
+                return new Sala_de_reuniao(nome, capacidade, localizacao, reservado);
             case "Quadra":
-                return new Quadra(nome, horario, capacidade, localizacao, reservado);
+                return new Quadra(nome, capacidade, localizacao, reservado);
             case "Auditorio":
-                return new Auditorio(nome, horario, capacidade, localizacao, reservado);
+                return new Auditorio(nome, capacidade, localizacao, reservado);
             default:
                 System.err.println("Tipo de local desconhecido: " + tipo);
                 return null;

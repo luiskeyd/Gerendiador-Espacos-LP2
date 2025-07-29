@@ -136,7 +136,7 @@ public class Cadastro extends JFrame {
             // Validar chave de administrador se necessário
             if (isAdm.isSelected()) {
                 String chave = new String(campo_chaveAcesso.getPassword());
-                if (!chave.equals("admin123")) { // Defina sua chave de admin aqui
+                if (!chave.equals("1234")) { // Defina sua chave de admin aqui
                     mostrarErro("Chave de administrador incorreta");
                     return;
                 }
