@@ -1,4 +1,4 @@
-// Interface com barra de rolagem na tabela e sem observações, com componentes mais organizados
+package com.projeto.view;
 import javax.swing.*;
 import javax.swing.border.*;
 import javax.swing.table.*;
@@ -6,12 +6,12 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Teste2 extends JFrame {
+public class Reservar extends JFrame {
     final Color azul_claro = new Color(64, 150, 255);
     final Color azul_escuro = new Color(80, 160, 255);
     final Font fonteLabel = new Font("Segoe UI", Font.PLAIN, 14);
     final Font fonteTitulo = new Font("Segoe UI", Font.BOLD, 20);
-    final Image icon = Toolkit.getDefaultToolkit().getImage("../imagens/icone.png");
+    final Image icon = Toolkit.getDefaultToolkit().getImage("icone.png");
 
     final JPanel painelPrincipal = new JPanel(new BorderLayout());
     final JPanel painelSuperior = new JPanel(new GridBagLayout());
@@ -41,7 +41,7 @@ public class Teste2 extends JFrame {
     private List<Salas> listaSalas;
     private Salas salaAtualSelecionada = null;
 
-    public Teste2() {
+    public Reservar() {
         super("Gerenciador de Espaços - Reservas");
         setSize(900, 700);
         setLocationRelativeTo(null);
@@ -338,9 +338,5 @@ public class Teste2 extends JFrame {
         public int getCapacidade() { return capacidade; }
         public String getHorario() { return horario; }
         public String getStatus() { return status; }
-    }
-
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(Teste2::new);
     }
 }

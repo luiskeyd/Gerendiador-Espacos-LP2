@@ -1,3 +1,5 @@
+package com.projeto.model;
+
 public abstract class Locais {
     private String nome;
     private String horario_disponivel;
@@ -5,13 +7,21 @@ public abstract class Locais {
     private String localizacao;
     private String reservado;
 
-    public Locais(String nome, String horaio_disponivel, int capacidade, 
-    String localizacao, String reservado){
+    // Construtor que aceita String para reservado
+    public Locais(String nome, String horario_disponivel, int capacidade,
+                  String localizacao, String reservado){
         setNome(nome);
-        setHorarioDisponivel(horaio_disponivel);
+        setHorarioDisponivel(horario_disponivel);
         setCapacidade(capacidade);
         setLocalizacao(localizacao);
         setReservado(reservado);
+    }
+
+    // Construtor que aceita boolean para reservado (para compatibilidade)
+    public Locais(String nome, String horario_disponivel, int capacidade,
+                  String localizacao, boolean reservado){
+        this(nome, horario_disponivel, capacidade, localizacao,
+                reservado ? "Ocupada" : "Disponível");
     }
 
     public void setNome(String nome){
@@ -22,8 +32,8 @@ public abstract class Locais {
         return this.nome;
     }
 
-    public void setHorarioDisponivel(String horaio_disponivel){
-        this.horario_disponivel = horaio_disponivel;
+    public void setHorarioDisponivel(String horario_disponivel){
+        this.horario_disponivel = horario_disponivel;
     }
 
     public String getHorarioDisponivel(){

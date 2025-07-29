@@ -4,7 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-//import controller.*;
+import com.projeto.controller.UsuarioController;
 
 // TELA DE LOGIN OU CADASTRO
 public class Login extends JFrame {
@@ -18,7 +18,7 @@ public class Login extends JFrame {
 
     // COMPONENTES
     final JLabel dado_incorreto = new JLabel("E-mail ou senha incorretos");
-    final Image icon = Toolkit.getDefaultToolkit().getImage("../imagens/icone.png");
+    final Image icon = Toolkit.getDefaultToolkit().getImage("icone.png");
     final JLabel perfil = new JLabel(redimensionarImagem());
     final JLabel email = new JLabel("E-mail");
     final JTextField campo_email = new JTextField(20);
@@ -26,6 +26,9 @@ public class Login extends JFrame {
     final JPasswordField campo_senha = new JPasswordField(20);
     final JButton login = new JButton("LOGIN");
     final JButton cadastro = new JButton("Cadastrar");
+
+    // Controller
+    private UsuarioController controller;
 
     public Login() {
         // DEFINIÇÕES BASES
@@ -36,6 +39,9 @@ public class Login extends JFrame {
         setIconImage(icon);                                // Icone da janela
         setLayout(layout);                                 // layout
         formulario.setBackground(azul_claro);              // cor do formulario
+
+        // Inicializar controller
+        controller = new UsuarioController(this);
 
         estilizar(); // Metodo que estiliza os componentes
 
@@ -61,23 +67,33 @@ public class Login extends JFrame {
         configurarPos(posicao, 6, 0, 25);  // Cadastro
         formulario.add(cadastro, posicao);
 
-        // Temporário
+        // Ação do botão cadastrar
         cadastro.addActionListener(e -> {
             setVisible(false);
             new Cadastro();
         });
 
+        // Ação do botão login - Agora com validação real
         login.addActionListener(e -> {
-            if(1 < 23){
+            // Remove mensagem de erro anterior se existir
+            formulario.remove(dado_incorreto);
+            formulario.revalidate();
+            formulario.repaint();
+
+            if (controller.processarLogin()) {
                 setVisible(false);
-                new Teste2();
-            }else{
+                new Reservar(); // Vai para a tela principal
+            } else {
                 posicao.anchor = GridBagConstraints.CENTER;
                 configurarPos(posicao, 8, 0, 5);
                 formulario.add(dado_incorreto, posicao);
                 formulario.revalidate();
             }
         });
+
+        // Permitir login com Enter
+        campo_senha.addActionListener(e -> login.doClick());
+        campo_email.addActionListener(e -> campo_senha.requestFocus());
 
         add(formulario, BorderLayout.CENTER); // Adiciona o Panel ao centro do layout
         setVisible(true);                     // mostra a janela
@@ -166,15 +182,18 @@ public class Login extends JFrame {
 
     // Redimensionar Imagem
     private ImageIcon redimensionarImagem(){
-        ImageIcon originalIcon = new ImageIcon("../imagens/perfil.png");
-        Image imagemRedimensionada = originalIcon.getImage().getScaledInstance(270, 270, Image.SCALE_SMOOTH);
-        return new ImageIcon(imagemRedimensionada);
+        try {
+            ImageIcon originalIcon = new ImageIcon("perfil.png");
+            Image imagemRedimensionada = originalIcon.getImage().getScaledInstance(270, 270, Image.SCALE_SMOOTH);
+            return new ImageIcon(imagemRedimensionada);
+        } catch (Exception e) {
+            // Se não encontrar a imagem, criar um placeholder
+            ImageIcon placeholder = new ImageIcon();
+            return placeholder;
+        }
     }
 
     // Gets
     public String getEmailLogin(){return campo_email.getText();}
     public String getSenhaLogin(){return new String (campo_senha.getPassword());}
-
-    public static void main(String[] args) { new Login();}
 }
-

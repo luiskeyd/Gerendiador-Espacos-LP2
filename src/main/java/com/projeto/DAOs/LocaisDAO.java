@@ -1,3 +1,6 @@
+package com.projeto.DAOs;
+
+import com.projeto.model.*;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -6,7 +9,7 @@ public class LocaisDAO {
 
     public void adicionar(Locais local) throws SQLException {
         String sql = "INSERT INTO locais (nome, tipo, capacidade, localizacao, horario_disponivel, reservado) " +
-                     "VALUES (?, ?, ?, ?, ?, ?)";
+                "VALUES (?, ?, ?, ?, ?, ?)";
 
         try (Connection con = ConexaoDAO.conectar();
              PreparedStatement stmt = con.prepareStatement(sql)) {
@@ -58,7 +61,9 @@ public class LocaisDAO {
 
             while (rs.next()) {
                 Locais local = criarObjetoLocal(rs);
-                lista.add(local);
+                if (local != null) {
+                    lista.add(local);
+                }
             }
         }
 
@@ -67,7 +72,7 @@ public class LocaisDAO {
 
     public void atualizar(Locais local, int id) throws SQLException {
         String sql = "UPDATE locais SET nome = ?, tipo = ?, capacidade = ?, localizacao = ?, " +
-                     "horario_disponivel = ?, reservado = ? WHERE id = ?";
+                "horario_disponivel = ?, reservado = ? WHERE id = ?";
 
         try (Connection con = ConexaoDAO.conectar();
              PreparedStatement stmt = con.prepareStatement(sql)) {
@@ -97,13 +102,14 @@ public class LocaisDAO {
                 return new Sala_de_aula(nome, horario, capacidade, localizacao, reservado);
             case "Laboratorio":
                 return new Laboratorio(nome, horario, capacidade, localizacao, reservado);
-            case "SalaReuniao":
+            case "Sala_de_reuniao":
                 return new Sala_de_reuniao(nome, horario, capacidade, localizacao, reservado);
-            case "QuadraEsportiva":
+            case "Quadra":
                 return new Quadra(nome, horario, capacidade, localizacao, reservado);
             case "Auditorio":
                 return new Auditorio(nome, horario, capacidade, localizacao, reservado);
             default:
+                System.err.println("Tipo de local desconhecido: " + tipo);
                 return null;
         }
     }
