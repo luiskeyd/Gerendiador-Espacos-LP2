@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ReservaDAO {
-    private static final String URL = "jdbc:mysql://localhost:3306/reserva_espacos";
+    private static final String URL = "jdbc:mysql://26.183.126.113:3306/reserva_espacos";
     private static final String USER = "root";
     private static final String PASSWORD = "12345";
 
