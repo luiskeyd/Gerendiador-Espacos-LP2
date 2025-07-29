@@ -27,7 +27,7 @@ public class Reservar extends JFrame {
     final JLabel titulo = new JLabel("Reserva de Salas");
     final JLabel bemVindo = new JLabel("Selecione uma sala disponível");
 
-    final String[] colunas = {"Sala", "Tipo", "Capacidade", "Localização", "Status"};
+    final String[] colunas = {"Sala", "Tipo", "Capacidade", "Localização"};
     final DefaultTableModel modeloTabela = new DefaultTableModel(colunas, 0) {
         public boolean isCellEditable(int row, int column) {
             return false;
@@ -85,7 +85,7 @@ public class Reservar extends JFrame {
         modeloTabela.setRowCount(0);
         for (Salas s : listaSalas) {
             modeloTabela.addRow(new Object[]{
-                    s.getNome(), s.getTipo(), s.getCapacidade(), s.getLocalizacao(), s.getStatus()
+                    s.getNome(), s.getTipo(), s.getCapacidade(), s.getLocalizacao()
             });
         }
     }
@@ -124,14 +124,14 @@ public class Reservar extends JFrame {
         for (int i = 0; i < tabelaSalas.getColumnCount(); i++)
             tabelaSalas.getColumnModel().getColumn(i).setCellRenderer(center);
 
-        tabelaSalas.getColumnModel().getColumn(4).setCellRenderer(new DefaultTableCellRenderer() {
-            public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
-                JLabel cell = (JLabel) super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-                cell.setHorizontalAlignment(JLabel.CENTER);
-                cell.setForeground("Disponível".equals(value) ? new Color(30, 150, 30) : Color.RED);
-                return cell;
-            }
-        });
+        // tabelaSalas.getColumnModel().getColumn(4).setCellRenderer(new DefaultTableCellRenderer() {
+        //     public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+        //         JLabel cell = (JLabel) super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+        //         cell.setHorizontalAlignment(JLabel.CENTER);
+        //         cell.setForeground("Disponível".equals(value) ? new Color(30, 150, 30) : Color.RED);
+        //         return cell;
+        //     }
+        // });
 
         comboHorarios.setFont(fonteLabel);
         comboHorarios.setBackground(Color.WHITE);
@@ -184,79 +184,95 @@ public class Reservar extends JFrame {
         painelPrincipal.add(abas, BorderLayout.CENTER);
     }
 
-    private JPanel criarPainelCadastroSala() {
-        JPanel painelCadastro = new JPanel(new GridBagLayout());
-        painelCadastro.setBackground(azul_claro);
-        painelCadastro.setBorder(BorderFactory.createTitledBorder(
-                BorderFactory.createLineBorder(Color.WHITE, 1, true),
-                "Cadastrar Nova Sala", TitledBorder.LEFT, TitledBorder.TOP, fonteLabel, Color.WHITE));
+private JPanel criarPainelCadastroSala() {
+    JPanel painelCadastro = new JPanel(new GridBagLayout());
+    painelCadastro.setBackground(azul_claro);
+    painelCadastro.setBorder(BorderFactory.createTitledBorder(
+            BorderFactory.createLineBorder(Color.WHITE, 1, true),
+            "Cadastrar Nova Sala", TitledBorder.LEFT, TitledBorder.TOP, fonteLabel, Color.WHITE));
 
-        GridBagConstraints gbc = new GridBagConstraints();
-        gbc.insets = new Insets(10, 10, 10, 10);
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        gbc.anchor = GridBagConstraints.WEST;
+    GridBagConstraints gbc = new GridBagConstraints();
+    gbc.insets = new Insets(10, 10, 10, 10);
+    gbc.fill = GridBagConstraints.HORIZONTAL;
+    gbc.anchor = GridBagConstraints.WEST;
 
-        JLabel labelNome = new JLabel("Nome:");
-        JLabel labelCapacidade = new JLabel("Capacidade:");
-        JLabel labelHorario = new JLabel("Horário Disponível:");
-        JLabel labelLocalizacao = new JLabel("Localização:");
+    JLabel labelNome = new JLabel("Nome:");
+    JLabel labelCapacidade = new JLabel("Capacidade:");
+    JLabel labelTipo = new JLabel("Tipo:");
+    JLabel labelLocalizacao = new JLabel("Localização:");
 
-        labelNome.setFont(fonteLabel);
-        labelCapacidade.setFont(fonteLabel);
-        labelHorario.setFont(fonteLabel);
-        labelLocalizacao.setFont(fonteLabel);
+    labelNome.setFont(fonteLabel);
+    labelCapacidade.setFont(fonteLabel);
+    labelTipo.setFont(fonteLabel);
+    labelLocalizacao.setFont(fonteLabel);
 
-        JTextField campoNome = new JTextField(20);
-        JTextField campoCapacidade = new JTextField(10);
-        JTextField campoHorario = new JTextField(15);
-        JTextField campoLocalizacao = new JTextField(15);
-        JButton botaoCadastrar = new JButton("Cadastrar Sala");
-        estilizarBotao(botaoCadastrar);
+    JTextField campoNome = new JTextField(20);
+    JTextField campoCapacidade = new JTextField(10);
+    JTextField campoLocalizacao = new JTextField(15);
+    JComboBox<String> comboTipo = new JComboBox<>(new String[]{
+            "Sala_de_aula", "Laboratorio", "Sala_de_reuniao", "Quadra", "Auditorio"
+    });
 
-        gbc.gridx = 0; gbc.gridy = 0; painelCadastro.add(labelNome, gbc);
-        gbc.gridx = 1; painelCadastro.add(campoNome, gbc);
-        gbc.gridx = 0; gbc.gridy = 1; painelCadastro.add(labelCapacidade, gbc);
-        gbc.gridx = 1; painelCadastro.add(campoCapacidade, gbc);
-        gbc.gridx = 0; gbc.gridy = 2; painelCadastro.add(labelHorario, gbc);
-        gbc.gridx = 1; painelCadastro.add(campoHorario, gbc);
-        gbc.gridx = 0; gbc.gridy = 3; painelCadastro.add(labelLocalizacao, gbc);
-        gbc.gridx = 1; painelCadastro.add(campoLocalizacao, gbc);
-        gbc.gridx = 0; gbc.gridy = 4; gbc.gridwidth = 2; gbc.anchor = GridBagConstraints.CENTER;
-        painelCadastro.add(botaoCadastrar, gbc);
+    JButton botaoCadastrar = new JButton("Cadastrar Sala");
+    estilizarBotao(botaoCadastrar);
 
-        botaoCadastrar.addActionListener(e -> {
-            try {
-                String nome = campoNome.getText().trim();
-                String horario = campoHorario.getText().trim();
-                String localizacao = campoLocalizacao.getText().trim();
-                int capacidade = Integer.parseInt(campoCapacidade.getText().trim());
+    gbc.gridx = 0; gbc.gridy = 0; painelCadastro.add(labelNome, gbc);
+    gbc.gridx = 1; painelCadastro.add(campoNome, gbc);
+    gbc.gridx = 0; gbc.gridy = 1; painelCadastro.add(labelCapacidade, gbc);
+    gbc.gridx = 1; painelCadastro.add(campoCapacidade, gbc);
+    gbc.gridx = 0; gbc.gridy = 2; painelCadastro.add(labelTipo, gbc);
+    gbc.gridx = 1; painelCadastro.add(comboTipo, gbc);
+    gbc.gridx = 0; gbc.gridy = 3; painelCadastro.add(labelLocalizacao, gbc);
+    gbc.gridx = 1; painelCadastro.add(campoLocalizacao, gbc);
+    gbc.gridx = 0; gbc.gridy = 4; gbc.gridwidth = 2; gbc.anchor = GridBagConstraints.CENTER;
+    painelCadastro.add(botaoCadastrar, gbc);
 
-                if (nome.isEmpty() || horario.isEmpty() || localizacao.isEmpty()) {
-                    JOptionPane.showMessageDialog(this, "Preencha todos os campos.", "Erro", JOptionPane.ERROR_MESSAGE);
-                    return;
-                }
+    botaoCadastrar.addActionListener(e -> {
+        try {
+            String nome = campoNome.getText().trim();
+            String tipo = (String) comboTipo.getSelectedItem();
+            String localizacao = campoLocalizacao.getText().trim();
+            int capacidade = Integer.parseInt(campoCapacidade.getText().trim());
 
-                Locais nova = new Sala_de_aula(nome, capacidade, localizacao, "Disponível");
-                new LocaisDAO().adicionar(nova);
-                listaSalas.add(new Salas(nome, nova.getClass().getSimpleName(), capacidade, localizacao, "Disponível"));
-                carregarDadosTabela();
-
-                campoNome.setText("");
-                campoCapacidade.setText("");
-                campoHorario.setText("");
-                campoLocalizacao.setText("");
-
-                JOptionPane.showMessageDialog(this, "Sala cadastrada com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
-            } catch (NumberFormatException ex) {
-                JOptionPane.showMessageDialog(this, "Capacidade inválida.", "Erro", JOptionPane.ERROR_MESSAGE);
-            } catch (Exception ex) {
-                JOptionPane.showMessageDialog(this, "Erro ao cadastrar: " + ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
-                ex.printStackTrace();
+            if (nome.isEmpty() || tipo.isEmpty() || localizacao.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Preencha todos os campos.", "Erro", JOptionPane.ERROR_MESSAGE);
+                return;
             }
-        });
 
-        return painelCadastro;
-    }
+            Locais novaSala;
+            switch (tipo) {
+                case "Laboratorio":
+                    novaSala = new Laboratorio(nome, capacidade, localizacao, "Disponível"); break;
+                case "Sala_de_reuniao":
+                    novaSala = new Sala_de_reuniao(nome, capacidade, localizacao, "Disponível"); break;
+                case "Quadra":
+                    novaSala = new Quadra(nome, capacidade, localizacao, "Disponível"); break;
+                case "Auditorio":
+                    novaSala = new Auditorio(nome, capacidade, localizacao, "Disponível"); break;
+                default:
+                    novaSala = new Sala_de_aula(nome, capacidade, localizacao, "Disponível");
+            }
+
+            new LocaisDAO().adicionar(novaSala);
+            listaSalas.add(new Salas(nome, tipo, capacidade, localizacao, "Disponível"));
+            carregarDadosTabela();
+
+            campoNome.setText("");
+            campoCapacidade.setText("");
+            campoLocalizacao.setText("");
+
+            JOptionPane.showMessageDialog(this, "Sala cadastrada com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+        } catch (NumberFormatException ex) {
+            JOptionPane.showMessageDialog(this, "Capacidade inválida.", "Erro", JOptionPane.ERROR_MESSAGE);
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, "Erro ao cadastrar: " + ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+            ex.printStackTrace();
+        }
+    });
+
+    return painelCadastro;
+}
+
 
     private void configurarEventos() {
         tabelaSalas.getSelectionModel().addListSelectionListener(e -> {

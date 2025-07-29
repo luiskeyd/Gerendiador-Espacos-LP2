@@ -7,22 +7,22 @@ import java.util.List;
 
 public class LocaisDAO {
 
-    public void adicionar(Locais local) throws SQLException {
-        String sql = "INSERT INTO locais (NOME, TIPO, CAPACIDADE, LOCALIZACAO, reservado) " +
-                "VALUES (?, ?, ?, ?, ?, ?)";
+public void adicionar(Locais local) throws SQLException {
+    String sql = "INSERT INTO locais (nome, tipo, capacidade, localizacao, reservado) VALUES (?, ?, ?, ?, ?)";
 
-        try (Connection con = ConexaoDAO.conectar();
-             PreparedStatement stmt = con.prepareStatement(sql)) {
+    try (Connection con = ConexaoDAO.conectar();
+         PreparedStatement stmt = con.prepareStatement(sql)) {
 
-            stmt.setString(1, local.getNome());
-            stmt.setString(2, local.getClass().getSimpleName());
-            stmt.setInt(3, local.getCapacidade());
-            stmt.setString(4, local.getLocalizacao());
-            stmt.setInt(5, 0);           
+        stmt.setString(1, local.getNome());
+        stmt.setString(2, local.getClass().getSimpleName());
+        stmt.setInt(3, local.getCapacidade());
+        stmt.setString(4, local.getLocalizacao());
+        stmt.setInt(5, 0); // 0 = não reservado por padrão
 
-            stmt.executeUpdate();
-        }
+        stmt.executeUpdate();
     }
+}
+
 
     public void remover(int id) throws SQLException {
         String sql = "DELETE FROM locais WHERE id = ?";
