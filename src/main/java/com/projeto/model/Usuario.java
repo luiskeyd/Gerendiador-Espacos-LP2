@@ -1,13 +1,13 @@
 public class Usuario {
     private String nome;
     private String email;
-    private boolean is_adm;
+    private String tipo;
     private String senha;
 
-    public Usuario(String nome, String email, boolean is_adm, String senha){
+    public Usuario(String nome, String email, String tipo, String senha){
         setNome(nome);
         setEmail(email);
-        setIsAdm(is_adm);
+        setTipo(tipo);
         setSenha(senha);
     }
 
@@ -27,12 +27,12 @@ public class Usuario {
         return this.email;
     }
 
-    public void setIsAdm(boolean is_adm){
-        this.is_adm = is_adm;
+    public void setTipo(String tipo){
+        this.tipo = tipo;
     }
 
-    public boolean getIsAdm(){
-        return this.is_adm;
+    public String getTipo(){
+        return this.tipo;
     }
 
     public void setSenha(String senha){

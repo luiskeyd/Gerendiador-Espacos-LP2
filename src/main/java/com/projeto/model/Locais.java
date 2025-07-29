@@ -3,10 +3,10 @@ public abstract class Locais {
     private String horario_disponivel;
     private int capacidade;
     private String localizacao;
-    private boolean reservado;
+    private String reservado;
 
     public Locais(String nome, String horaio_disponivel, int capacidade, 
-    String localizacao, boolean reservado){
+    String localizacao, String reservado){
         setNome(nome);
         setHorarioDisponivel(horaio_disponivel);
         setCapacidade(capacidade);
@@ -26,7 +26,7 @@ public abstract class Locais {
         this.horario_disponivel = horaio_disponivel;
     }
 
-    public String getHorarioDisponive(){
+    public String getHorarioDisponivel(){
         return this.horario_disponivel;
     }
 
@@ -46,11 +46,11 @@ public abstract class Locais {
         return this.localizacao;
     }
 
-    public void setReservado(boolean reservado){
+    public void setReservado(String reservado){
         this.reservado = reservado;
     }
 
-    public boolean getReservado(){
+    public String getReservado(){
         return this.reservado;
     }
 }

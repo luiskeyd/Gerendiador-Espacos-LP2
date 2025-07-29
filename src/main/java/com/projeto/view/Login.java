@@ -1,8 +1,10 @@
+package com.projeto.view;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import controller.*;
+//import controller.*;
 
 // TELA DE LOGIN OU CADASTRO
 public class Login extends JFrame {
