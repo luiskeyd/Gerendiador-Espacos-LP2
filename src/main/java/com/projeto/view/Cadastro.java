@@ -18,7 +18,7 @@ public class Cadastro extends JFrame {
     final JLabel erro = new JLabel("Dados inválidos");
     final JLabel sucesso = new JLabel("Cadastro realizado com sucesso!");
     final JButton voltar = new JButton("Voltar");
-    final Image icon = Toolkit.getDefaultToolkit().getImage("icone.png");
+    final Image icon = Toolkit.getDefaultToolkit().getImage("imagens/icone.png");
     final JLabel nome = new JLabel("Nome");
     final JTextField campo_nome = new JTextField(20);
     final JButton criar_cadastro = new JButton("CADASTRAR");

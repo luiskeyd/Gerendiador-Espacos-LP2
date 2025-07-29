@@ -11,7 +11,7 @@ public class Reservar extends JFrame {
     final Color azul_escuro = new Color(80, 160, 255);
     final Font fonteLabel = new Font("Segoe UI", Font.PLAIN, 14);
     final Font fonteTitulo = new Font("Segoe UI", Font.BOLD, 20);
-    final Image icon = Toolkit.getDefaultToolkit().getImage("icone.png");
+    final Image icon = Toolkit.getDefaultToolkit().getImage("imagens/icone.png");
 
     final JPanel painelPrincipal = new JPanel(new BorderLayout());
     final JPanel painelSuperior = new JPanel(new GridBagLayout());

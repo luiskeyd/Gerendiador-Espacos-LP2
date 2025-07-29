@@ -18,7 +18,7 @@ public class Login extends JFrame {
 
     // COMPONENTES
     final JLabel dado_incorreto = new JLabel("E-mail ou senha incorretos");
-    final Image icon = Toolkit.getDefaultToolkit().getImage("icone.png");
+    final Image icon = Toolkit.getDefaultToolkit().getImage("imagens/icone.png");
     final JLabel perfil = new JLabel(redimensionarImagem());
     final JLabel email = new JLabel("E-mail");
     final JTextField campo_email = new JTextField(20);
@@ -183,7 +183,7 @@ public class Login extends JFrame {
     // Redimensionar Imagem
     private ImageIcon redimensionarImagem(){
         try {
-            ImageIcon originalIcon = new ImageIcon("perfil.png");
+            ImageIcon originalIcon = new ImageIcon("imagens/perfil.png");
             Image imagemRedimensionada = originalIcon.getImage().getScaledInstance(270, 270, Image.SCALE_SMOOTH);
             return new ImageIcon(imagemRedimensionada);
         } catch (Exception e) {
