@@ -197,9 +197,17 @@ private JPanel criarPainelCadastroSala() {
     gbc.anchor = GridBagConstraints.WEST;
 
     JLabel labelNome = new JLabel("Nome:");
+    labelNome.setForeground(Color.WHITE);
+    labelNome.setFont(fonteLabel);
     JLabel labelCapacidade = new JLabel("Capacidade:");
+    labelCapacidade.setForeground(Color.WHITE);
+    labelCapacidade.setFont(fonteLabel);
     JLabel labelTipo = new JLabel("Tipo:");
+    labelTipo.setForeground(Color.WHITE);
+    labelTipo.setFont(fonteLabel);
     JLabel labelLocalizacao = new JLabel("Localização:");
+    labelLocalizacao.setForeground(Color.WHITE);
+    labelLocalizacao.setFont(fonteLabel);
 
     labelNome.setFont(fonteLabel);
     labelCapacidade.setFont(fonteLabel);
