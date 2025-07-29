@@ -115,7 +115,6 @@ public class UsuarioController {
     }
 
     public boolean validarChaveAdmin(String chave) {
-        // Você pode definir sua chave de admin aqui ou em um arquivo de configuração
         final String CHAVE_ADMIN = "1234";
         return CHAVE_ADMIN.equals(chave);
     }

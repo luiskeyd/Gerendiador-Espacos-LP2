@@ -54,9 +54,6 @@ public class Cadastro extends JFrame {
         setVisible(true);
     }
 
-    /**
-     * Configura o layout dos componentes
-     */
     private void configurarLayout() {
         posicao.anchor = GridBagConstraints.CENTER;
         configurarPos(posicao, 1, 10, 30);
@@ -85,9 +82,6 @@ public class Cadastro extends JFrame {
         formulario.add(voltar, posicao);
     }
 
-    /**
-     * Configura os eventos dos componentes
-     */
     private void configurarEventos() {
         // Checkbox de administrador
         isAdm.addActionListener(e -> toggleCamposAdmin());
@@ -111,9 +105,6 @@ public class Cadastro extends JFrame {
         campo_nome.addActionListener(e -> campo_email.requestFocus());
     }
 
-    /**
-     * Mostra/esconde campos de administrador
-     */
     private void toggleCamposAdmin() {
         if (isAdm.isSelected()) {
             posicao.anchor = GridBagConstraints.WEST;
@@ -129,17 +120,11 @@ public class Cadastro extends JFrame {
         formulario.repaint();
     }
 
-    /**
-     * Volta para a tela de login
-     */
     private void voltarParaLogin() {
         setVisible(false);
         new Login();
     }
 
-    /**
-     * Processa o cadastro do usuário
-     */
     private void processarCadastro() {
         // Remove mensagens anteriores
         limparMensagens();
@@ -179,10 +164,6 @@ public class Cadastro extends JFrame {
         }
     }
 
-    /**
-     * Validações básicas da interface (campos vazios, etc.)
-     * Validações mais complexas ficam no Controller
-     */
     private boolean validarCamposInterface() {
         if (campo_nome.getText().trim().isEmpty()) {
             mostrarErro("Nome é obrigatório");
@@ -211,9 +192,6 @@ public class Cadastro extends JFrame {
         return true;
     }
 
-    /**
-     * Remove mensagens de erro/sucesso da tela
-     */
     private void limparMensagens() {
         formulario.remove(erro);
         formulario.remove(sucesso);
@@ -221,9 +199,6 @@ public class Cadastro extends JFrame {
         formulario.repaint();
     }
 
-    /**
-     * Mostra mensagem de erro
-     */
     private void mostrarErro(String mensagem) {
         erro.setText(mensagem);
         posicao.anchor = GridBagConstraints.CENTER;
@@ -232,9 +207,6 @@ public class Cadastro extends JFrame {
         formulario.revalidate();
     }
 
-    /**
-     * Mostra mensagem de sucesso
-     */
     private void mostrarSucesso() {
         posicao.anchor = GridBagConstraints.CENTER;
         configurarPos(posicao, 13, 0, 5);
@@ -242,9 +214,6 @@ public class Cadastro extends JFrame {
         formulario.revalidate();
     }
 
-    /**
-     * Limpa todos os campos do formulário
-     */
     private void limparCampos() {
         campo_nome.setText("");
         campo_email.setText("");
@@ -259,18 +228,12 @@ public class Cadastro extends JFrame {
         formulario.repaint();
     }
 
-    /**
-     * Configura posição no GridBagLayout
-     */
     private void configurarPos(GridBagConstraints gbc, int y, int top, int bottom) {
         gbc.gridx = 0;
         gbc.gridy = y;
         gbc.insets = new Insets(top, 0, bottom, 0);
     }
 
-    /**
-     * Configura a estilização dos componentes
-     */
     private void estilizar() {
         // Título
         texto_cadastra_se.setFont(new Font("Arial", Font.BOLD, 25));
@@ -309,9 +272,6 @@ public class Cadastro extends JFrame {
         estilizarBotaoSecundario(voltar);
     }
 
-    /**
-     * Configura estilização dos campos de texto
-     */
     private void configurarCampoTexto(JTextField campo, String tooltip) {
         campo.setBackground(new Color(80, 160, 255));
         campo.setForeground(Color.WHITE);
@@ -325,9 +285,6 @@ public class Cadastro extends JFrame {
         campo.setToolTipText(tooltip);
     }
 
-    /**
-     * Estiliza botão primário (cadastrar)
-     */
     private void estilizarBotaoPrimario(JButton botao) {
         botao.setBackground(azul_claro);
         botao.setForeground(Color.WHITE);
@@ -353,9 +310,6 @@ public class Cadastro extends JFrame {
         });
     }
 
-    /**
-     * Estiliza botão secundário (voltar)
-     */
     private void estilizarBotaoSecundario(JButton botao) {
         botao.setBackground(azul_claro);
         botao.setForeground(Color.WHITE);

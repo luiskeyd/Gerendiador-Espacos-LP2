@@ -109,11 +109,6 @@ public class LocaisController {
 
     public boolean processarReserva(String nomeSala, String horario) {
         try {
-            // Aqui você pode implementar a lógica de reserva
-            // Por exemplo, atualizar o status da sala no banco de dados
-            // ou criar um registro de reserva
-
-            // Por enquanto, apenas simula uma reserva bem-sucedida
             System.out.println("Reserva processada - Sala: " + nomeSala + ", Horário: " + horario);
             return true;
 

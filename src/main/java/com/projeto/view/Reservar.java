@@ -7,6 +7,8 @@ import javax.swing.*;
 import javax.swing.border.*;
 import javax.swing.table.*;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.List;
 
 public class Reservar extends JFrame {
@@ -43,7 +45,7 @@ public class Reservar extends JFrame {
     final JLabel labelHorario = new JLabel("Horário:");
     final JComboBox<String> comboHorarios = new JComboBox<>();
     final JButton botaoReservar = new JButton("RESERVAR SALA");
-    final JButton botaoVoltar = new JButton("Voltar");
+    final JButton botaoVoltar = new JButton("Voltar para o Login");
 
     // Controller e dados
     final LocaisController controller;
@@ -69,9 +71,6 @@ public class Reservar extends JFrame {
         setVisible(true);
     }
 
-    /**
-     * Inicializa os dados carregando as salas através do controller
-     */
     private void inicializarDados() {
         listaSalas = controller.carregarSalas();
         if (listaSalas.isEmpty()) {
@@ -98,9 +97,6 @@ public class Reservar extends JFrame {
         }
     }
 
-    /**
-     * Configura a estilização dos componentes
-     */
     private void estilizarComponentes() {
         painelPrincipal.setBackground(new Color(240, 244, 248));
         painelSuperior.setBackground(azul_claro);
@@ -141,12 +137,9 @@ public class Reservar extends JFrame {
         comboHorarios.setBackground(Color.WHITE);
 
         estilizarBotao(botaoReservar);
-        estilizarBotao(botaoVoltar);
+        estilizarBotaoMinimalista(botaoVoltar);
     }
 
-    /**
-     * Aplica estilização padrão aos botões
-     */
     private void estilizarBotao(JButton botao) {
         botao.setFont(new Font("Segoe UI", Font.BOLD, 14));
         botao.setFocusPainted(false);
@@ -156,11 +149,39 @@ public class Reservar extends JFrame {
         botao.setBorder(BorderFactory.createCompoundBorder(
                 BorderFactory.createLineBorder(Color.WHITE, 2, true),
                 BorderFactory.createEmptyBorder(10, 25, 10, 25)));
+
+        botao.addMouseListener(new MouseAdapter() {
+            public void mouseEntered(MouseEvent e) {
+                botao.setBackground(Color.WHITE);
+                botao.setForeground(azul_claro);
+            }
+
+            public void mouseExited(MouseEvent e) {
+                botao.setBackground(azul_claro);
+                botao.setForeground(Color.WHITE);
+            }
+        });
     }
 
-    /**
-     * Configura o layout dos componentes
-     */
+    private void estilizarBotaoMinimalista(JButton botao){
+        botao.setBackground(azul_claro);
+        botao.setForeground(Color.WHITE);
+        botao.setFont(fonteLabel);
+        botao.setBorder(null);
+        botao.setFocusPainted(false);
+        botao.setOpaque(false);
+        botao.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        botao.addMouseListener(new MouseAdapter() {
+            public void mouseEntered(MouseEvent e) {
+                botao.setForeground(new Color(200, 220, 255));
+            }
+
+            public void mouseExited(MouseEvent e) {
+                botao.setForeground(Color.WHITE);
+            }
+        });
+    }
+
     private void configurarComponentes() {
         // Painel superior
         configurarPos(posicao, 0, 0, 10, 5);
@@ -183,7 +204,7 @@ public class Reservar extends JFrame {
         painelFormulario.add(comboHorarios, posicao);
         configurarPos(posicao, 4, 0, 20, 10);
         painelFormulario.add(botaoReservar, posicao);
-        configurarPos(posicao, 5, 0, 10, 20);
+        configurarPos(posicao, 5, 0, 5, 0);
         painelFormulario.add(botaoVoltar, posicao);
 
         // Configurar abas
@@ -200,9 +221,6 @@ public class Reservar extends JFrame {
         painelPrincipal.add(abas, BorderLayout.CENTER);
     }
 
-    /**
-     * Cria o painel de cadastro de salas (apenas para admins)
-     */
     private JPanel criarPainelCadastroSala() {
         JPanel painelCadastro = new JPanel(new GridBagLayout());
         painelCadastro.setBackground(azul_claro);
@@ -280,9 +298,6 @@ public class Reservar extends JFrame {
         return painelCadastro;
     }
 
-    /**
-     * Helper method para criar labels padronizados
-     */
     private JLabel criarLabel(String texto) {
         JLabel label = new JLabel(texto);
         label.setForeground(Color.WHITE);
@@ -290,9 +305,6 @@ public class Reservar extends JFrame {
         return label;
     }
 
-    /**
-     * Configura os eventos dos componentes
-     */
     private void configurarEventos() {
         // Evento de seleção na tabela
         tabelaSalas.getSelectionModel().addListSelectionListener(e -> {
@@ -334,9 +346,6 @@ public class Reservar extends JFrame {
         botaoReservar.setEnabled(false);
     }
 
-    /**
-     * Processa a reserva de uma sala
-     */
     private void realizarReserva() {
         if (salaAtualSelecionada != null && comboHorarios.getSelectedItem() != null) {
             String horario = (String) comboHorarios.getSelectedItem();
@@ -357,9 +366,6 @@ public class Reservar extends JFrame {
         }
     }
 
-    /**
-     * Limpa o formulário de reserva
-     */
     private void limparFormulario() {
         tabelaSalas.clearSelection();
         salaSelecionada.setText("Nenhuma sala selecionada");
@@ -368,9 +374,6 @@ public class Reservar extends JFrame {
         salaAtualSelecionada = null;
     }
 
-    /**
-     * Configura posição no GridBagLayout
-     */
     private void configurarPos(GridBagConstraints gbc, int y, int x, int top, int bottom) {
         gbc.gridx = x;
         gbc.gridy = y;
