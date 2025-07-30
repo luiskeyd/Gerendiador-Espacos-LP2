@@ -15,9 +15,8 @@ Sistema para gerenciar reservas de espaços acadêmicos desenvolvido em Java com
 - ✅ Gerenciamento de usuários
 - ✅ Cadastro de espaços
 - ✅ Sistema de reservas
-- ✅ Relatórios e estatísticas (semanal, mensal, anual)
 - ✅ Logs de ações em .txt
-- ✅ Emissão de relatórios em .csv
+- ✅ Emissão de comprovante em .txt
 
 ## 🛠️ Tecnologias
 
@@ -30,11 +29,9 @@ Sistema para gerenciar reservas de espaços acadêmicos desenvolvido em Java com
 ## 📦 Estrutura do Projeto
 
 ```
-src/main/java/com/example/
-├── config/          # Configurações
+src/main/java/com/projeto/
 ├── model/           # Entidades
 ├── dao/             # Acesso a dados
-├── service/         # Regras de negócio
 ├── controller/      # Controladores
 ├── view/            # Interface do usuário
 └── util/            # Utilitários
@@ -44,7 +41,7 @@ src/main/java/com/example/
 
 1. **Clone o repositório**
    ```bash
-   git clone https://github.com/seu-usuario/gerenciador-espacosjava.git
+   git clone https://github.com/luiskeyd/gerenciador-espacos-java.git
    ```
 
 2. **Configure o banco de dados**
@@ -58,16 +55,9 @@ src/main/java/com/example/
    mvn exec:java -Dexec.mainClass="com.example.Main"
    ```
 
-## 📊 Relatórios Gerados
-
-- `relatorios/uso_semanal.csv`
-- `relatorios/uso_mensal.csv`
-- `relatorios/uso_anual.csv`
-
 ## 📝 Logs
 
-- `logs/sistema.log` - Logs gerais do sistema
-- `logs/acoes_usuarios.log` - Ações dos usuários
+- `logs/log.txt` - Logs gerais do sistema
 
 ## 👥 Contribuição
 

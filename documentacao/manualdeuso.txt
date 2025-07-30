@@ -1,0 +1,142 @@
+Manual De Uso - Gerenciador de Espaços
+
+## 1. Introdução
+
+O Gerenciador de Espaços é um sistema desenvolvido para auxiliar instituições no gerenciamento eficiente de seus locais e ambientes.
+
+## 2. Primeiros Passos
+
+### 2.1 Tela de Login
+
+A primeira tela que aparecerá ao acessar o sistema é a Tela de Login. Nesta tela você encontrará:
+
+- Campo E-mail: Digite o endereço de e-mail cadastrado no sistema
+- Campo Senha: Insira a senha correspondente ao seu cadastro
+- Botão "Login": Clique para acessar o sistema
+- Botão "Cadastrar": Caso não possua cadastro, clique aqui para criar uma nova conta
+
+Como fazer login:
+1. Digite seu e-mail no campo correspondente
+2. Insira sua senha
+3. Clique no botão "Login"
+4. Aguarde o carregamento do sistema
+
+## 3. Cadastro de Usuários
+
+### 3.1 Acessando a Tela de Cadastro
+
+Se você ainda não possui uma conta no sistema, clique no botão "Cadastrar" na tela de login para ser direcionado à tela de cadastro.
+
+### 3.2 Preenchendo os Dados de Cadastro
+
+Na tela de cadastro, você deverá preencher os seguintes campos obrigatórios:
+
+#### Campos Básicos:
+- Nome: Digite seu nome completo;
+- E-mail: Insira um endereço de e-mail válido (será usado para login);
+- Senha: Crie uma senha segura para proteger sua conta.
+
+#### Para Administradores:
+Se você for um administrador do sistema, siga os passos adicionais:
+
+1. Marque o quadradinho "Você é um administrador";
+2. Insira a chave de acesso fornecida pela instituição no campo correspondente.
+
+### 3.3 Finalizando o Cadastro
+
+Após preencher todos os campos necessários:
+1. Verifique se todas as informações estão corretas;
+2. Clique no botão "Cadastrar" ;
+3. Aguarde a confirmação do sistema;
+4. Você será direcionado automaticamente para a tela de login.
+
+## 4. Funcionalidades do Sistema
+
+Após realizar o login com sucesso, você terá acesso ao painel principal do Gerenciador de Espaços, que é organizado em três abas principais:
+
+### 4.1 Aba "Locais Disponíveis"
+
+Esta aba apresenta uma lista completa de todos os locais existentes na instituição que podem ser reservados.
+
+Funcionalidades:
+- Visualização de todos os espaços cadastrados no sistema;
+- Informações básicas sobre cada local.
+
+Como usar:
+1. Acesse a aba "Locais Disponíveis";
+2. Navegue pela lista para visualizar todos os espaços;
+3. Consulte as informações de cada local conforme necessário.
+
+### 4.2 Aba "Fazer Reserva"
+
+Esta aba permite que usuários realizem reservas de locais disponíveis.
+
+Processo de Reserva:
+
+1. Seleção do Local
+   - Escolha o local desejado na lista de opções disponíveis;
+   - Após a seleção, as informações detalhadas do local aparecerão abaixo.
+
+2. Informações do Local
+   - Nome do local;
+   - Localização;
+   - Tipo de espaço;
+   - Capacidade.
+
+3. Definição de Data e Horário
+   - Selecione a data desejada para a reserva;
+   - Escolha o horário de início e termino.
+ 
+
+4. Confirmação da Reserva
+   - Verifique todos os dados inseridos;
+   - Clique no botão "Confirmar Reserva";
+   - Aguarde a confirmação do sistema.
+
+### 4.3 Aba "Cadastrar Locais" (Exclusivo para Administradores)
+
+Esta funcionalidade está disponível apenas para usuários com perfil de administrador e permite o cadastro de novos locais no sistema.
+
+Campos obrigatórios para cadastro:
+
+- Nome: Denominação do local (ex: "Sala de Reuniões A", "Auditório Principal");
+- Localização: Endereço ou descrição da localização física (ex: "2º andar, ala oeste", "Prédio administrativo");
+- Tipo: Categoria do espaço (ex: "Sala de reuniões", "Auditório", "Laboratório", "Sala de aula");
+- Capacidade: Número máximo de pessoas que o local pode acomodar;
+
+Como cadastrar um novo local:
+
+1. Acesse a aba "Cadastrar Locais";
+2. Preencha o campo "Nome" com a denominação do local;
+3. Insira a "Localização" com informações precisas de onde encontrar o espaço;
+4. Selecione ou digite o "Tipo" de local apropriado;
+5. Informe a "Capacidade" máxima de pessoas;
+6. Clique em "Cadastrar Local";
+7. Aguarde a confirmação de que o local foi cadastrado com sucesso.
+
+## 4.4 Aba "Excluir Locais" (Exclusivo para Administrador)
+
+Esta funcionalidade está disponível apenas para usuários com perfil de administrador e permite a exclusão  de  locais no sistema.
+
+Para excluir local:
+1. Selecione o local que deseja excluir;
+2. Confirme a exclusão do local pressionando o Botão "Excluir";
+
+A direita da tela terá as informações do local selecionado;
+
+Obs: É possível excluir locais que possuem reservas.
+
+
+## 5. Tipos de Usuário
+
+### 5.1 Usuário Comum
+- Acesso às abas "Locais Disponíveis" e "Fazer Reserva";
+- Pode visualizar todos os espaços cadastrados;
+- Pode realizar reservas de locais disponíveis;
+- Gerencia suas próprias reservas.
+
+### 5.2 Administrador
+- Acesso a todas as três abas do sistema;
+- Pode visualizar e reservar espaços;
+- Pode cadastrar novos locais na instituição;
+- Gerencia todos os aspectos do sistema de espaços.
