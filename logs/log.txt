@@ -1,1 +1,14 @@
 
+[2025-07-30 09:38:06] O usuário glezier se conectou!
+[2025-07-30 09:38:28] O espaço Lab 3 foi reservado pelo usuário glezier das 2025-07-30T08:00 às 2025-07-30T10:00
+[2025-07-30 09:38:28] Erro ao gerar comprovante da reserva: comprovantes\reserva_2025-07-30_09-38-28_glezier.txt (O sistema não pode encontrar o caminho especificado)
+[2025-07-30 09:39:46] O espaço Lab 3 foi reservado pelo usuário glezier das 2025-07-30T10:00 às 2025-07-30T12:00
+[2025-07-30 09:39:46] Comprovante da reserva gerado.
+[2025-07-30 09:40:19] O espaço Lab 77 foi reservado pelo usuário glezier das 2025-07-30T08:00 às 2025-07-30T10:00
+[2025-07-30 09:40:19] Comprovante da reserva gerado.
+[2025-07-30 09:44:38] O espaço Sala 301 foi criado por um adiministrador
+[2025-07-30 09:47:09] O usuário glezier se conectou!
+[2025-07-30 09:47:18] O espaço Sala 301 foi excluido por um administrador
+[2025-07-30 09:48:06] O espaço Sala 301 foi criado por um adiministrador
+[2025-07-30 09:48:37] O espaço Sala 301 foi excluido por um administrador
+[2025-07-30 09:49:19] O espaço Casa do meu pai foi excluido por um administrador

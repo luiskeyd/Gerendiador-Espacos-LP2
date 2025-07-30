@@ -40,7 +40,7 @@ public class LocaisDAO {
     // Método excluirLocal
     public void excluirLocal(String nomeLocal) throws SQLException {
         // Comando SQL para excluir todas as reservas do local primeiro
-        String sqlExcluirReservas = "DELETE FROM reservas WHERE nome_local = ?";
+        String sqlExcluirReservas = "DELETE FROM reservas WHERE nome_espaco = ?";
         String sqlExcluirLocal = "DELETE FROM locais WHERE nome = ?";
 
         try (Connection con = ConexaoDAO.conectar()) {

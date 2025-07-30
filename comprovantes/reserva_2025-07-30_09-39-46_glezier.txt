@@ -1,0 +1,6 @@
+=== COMPROVANTE DE RESERVA ===
+Nome do Espaço: Lab 3
+Nome do Usuário: glezier
+Início: 2025-07-30T10:00
+Fim: 2025-07-30T12:00
+==============================
