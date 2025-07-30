@@ -81,13 +81,6 @@ local.properties
 ehthumbs.db
 Thumbs.db
 
-# Logs específicos do projeto
-logs/*.log
-logs/*.txt
-
-# Relatórios CSV gerados
-relatorios/*.csv
-
 # Arquivos de configuração sensíveis
 src/main/resources/application.properties
 src/main/resources/database.properties
