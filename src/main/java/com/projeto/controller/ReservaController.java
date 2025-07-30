@@ -37,6 +37,17 @@ public class ReservaController {
         return locaisController.carregarSalas();
     }
 
+    
+    public boolean excluirLocal(String nomeLocal) {
+        try {
+            locaisDAO.excluirLocal(nomeLocal);
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
     // Retorna os nomes de todos os locais disponíveis no banco
     public String[] obterNomesLocais() {
         try {

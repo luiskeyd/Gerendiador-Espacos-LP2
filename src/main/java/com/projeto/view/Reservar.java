@@ -49,11 +49,12 @@ public class Reservar extends JFrame {
     private JTextArea areaInfoSala;
 
     // Controller
-    private final ReservaController controller;
+    private final ReservaController controllerReserva;
+
 
     public Reservar() {
         super("Gerenciador de Espaços - Reservas");
-        controller = new ReservaController();
+        controllerReserva = new ReservaController();
 
         configurarJanela();
         inicializarComponentes();
@@ -129,13 +130,166 @@ public class Reservar extends JFrame {
         abas.addTab("Locais Disponíveis", painelCentral);
         abas.addTab("Fazer Reserva", criarPainelReservaSala());
 
-        if (controller.isUsuarioAdmin()) {
+        if (controllerReserva.isUsuarioAdmin()) {
             abas.addTab("Cadastrar Novo Local", criarPainelCadastroSala());
+            abas.addTab("Excluir Local", criarPainelExcluirLocal());
         }
 
         painelPrincipal.add(painelSuperior, BorderLayout.NORTH);
         painelPrincipal.add(abas, BorderLayout.CENTER);
     }
+
+    private JPanel criarPainelExcluirLocal(){
+        JPanel painelExcluir = new JPanel(new BorderLayout());
+        painelExcluir.setBackground(azul_claro);
+        JPanel painelEsquerdo = new JPanel(new BorderLayout());
+    painelEsquerdo.setBackground(azul_claro);
+    painelEsquerdo.setBorder(new EmptyBorder(20, 20, 20, 10));
+    
+    JLabel labelLocais = new JLabel("Locais Cadastrados:");
+    labelLocais.setFont(fonteTitulo);
+    labelLocais.setForeground(Color.WHITE);
+    
+    // Lista de locais existentes
+    JList<String> listaLocaisExcluir = new JList<>();
+    listaLocaisExcluir.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+    listaLocaisExcluir.setFont(fonteLabel);
+    listaLocaisExcluir.setVisibleRowCount(8);
+    
+    // Carregar locais na lista
+    String[] nomesLocais = controllerReserva.obterNomesLocais();
+    listaLocaisExcluir.setListData(nomesLocais);
+    
+    JScrollPane scrollLocais = new JScrollPane(listaLocaisExcluir);
+    scrollLocais.setPreferredSize(new Dimension(300, 250));
+    
+    painelEsquerdo.add(labelLocais, BorderLayout.NORTH);
+    painelEsquerdo.add(scrollLocais, BorderLayout.CENTER);
+    
+    // Painel direito - Informações e botão de exclusão
+    JPanel painelDireito = new JPanel(new GridBagLayout());
+    painelDireito.setBackground(azul_claro);
+    painelDireito.setBorder(BorderFactory.createTitledBorder(
+        BorderFactory.createLineBorder(Color.WHITE, 1, true),
+        "Excluir Local", TitledBorder.LEFT, TitledBorder.TOP, fonteLabel, Color.WHITE));
+    
+    GridBagConstraints gbc = new GridBagConstraints();
+    gbc.insets = new Insets(15, 15, 15, 15);
+    gbc.fill = GridBagConstraints.HORIZONTAL;
+    gbc.anchor = GridBagConstraints.WEST;
+    
+    // Área de informações do local selecionado
+    JLabel labelInfo = criarLabelBranco("Informações do Local:");
+    JTextArea areaInfoExcluir = new JTextArea(6, 25);
+    areaInfoExcluir.setEditable(false);
+    areaInfoExcluir.setFont(fonteLabel);
+    areaInfoExcluir.setBackground(Color.WHITE);
+    areaInfoExcluir.setText("Selecione um local para ver as informações");
+    areaInfoExcluir.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+    
+    JScrollPane scrollInfo = new JScrollPane(areaInfoExcluir);
+    
+    // Botões
+    JButton botaoExcluir = new JButton("Excluir Local");
+    estilizarBotao(botaoExcluir);
+    botaoExcluir.setPreferredSize(new Dimension(200, 40));
+    botaoExcluir.setBackground(new Color(220, 53, 69)); // Cor vermelha para indicar exclusão
+    
+    JButton botaoAtualizar = new JButton("Atualizar Lista");
+    estilizarBotao(botaoAtualizar);
+    botaoAtualizar.setPreferredSize(new Dimension(200, 40));
+    
+    // Layout do painel direito
+    gbc.gridx = 0; gbc.gridy = 0; painelDireito.add(labelInfo, gbc);
+    gbc.gridy = 1; gbc.fill = GridBagConstraints.BOTH; gbc.weighty = 1.0;
+    painelDireito.add(scrollInfo, gbc);
+    gbc.gridy = 2; gbc.fill = GridBagConstraints.HORIZONTAL; gbc.weighty = 0;
+    gbc.anchor = GridBagConstraints.CENTER;
+    painelDireito.add(botaoExcluir, gbc);
+    gbc.gridy = 3; gbc.insets = new Insets(5, 15, 15, 15);
+    painelDireito.add(botaoAtualizar, gbc);
+    
+    // Eventos
+    listaLocaisExcluir.addListSelectionListener(e -> {
+        if (!e.getValueIsAdjusting()) {
+            String localSelecionado = listaLocaisExcluir.getSelectedValue();
+            if (localSelecionado != null) {
+                LocaisController.SalaInfo info = controllerReserva.obterInfoLocal(localSelecionado);
+                if (info != null) {
+                    areaInfoExcluir.setText(String.format(
+                        "Nome: %s\n" +
+                        "Tipo: %s\n" +
+                        "Capacidade: %d pessoas\n" +
+                        "Localização: %s\n\n" +
+                        "⚠️ ATENÇÃO: Esta ação não pode ser desfeita!\n" +
+                        "Todas as reservas deste local serão canceladas.",
+                        info.getNome(),
+                        info.getTipo(),
+                        info.getCapacidade(),
+                        info.getLocalizacao()
+                    ));
+                }
+            } else {
+                areaInfoExcluir.setText("Selecione um local para ver as informações");
+            }
+        }
+    });
+    
+    botaoExcluir.addActionListener(e -> {
+        String localSelecionado = listaLocaisExcluir.getSelectedValue();
+        if (localSelecionado == null) {
+            JOptionPane.showMessageDialog(this,
+                "Por favor, selecione um local para excluir.",
+                "Aviso", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        
+        // Confirmação de exclusão
+        int confirmacao = JOptionPane.showConfirmDialog(this,
+            String.format("Tem certeza que deseja excluir o local '%s'?\n\n" +
+                         "Esta ação não pode ser desfeita e todas as\n" +
+                         "reservas deste local serão canceladas!",
+                         localSelecionado),
+            "Confirmar Exclusão",
+            JOptionPane.YES_NO_OPTION,
+            JOptionPane.WARNING_MESSAGE);
+        
+        if (confirmacao == JOptionPane.YES_OPTION) {
+            if (controllerReserva.excluirLocal(localSelecionado)) {
+                JOptionPane.showMessageDialog(this,
+                    "Local excluído com sucesso!",
+                    "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+                
+                // Atualizar interfaces
+                String[] novosNomes = controllerReserva.obterNomesLocais();
+                listaLocaisExcluir.setListData(novosNomes);
+                areaInfoExcluir.setText("Selecione um local para ver as informações");
+                
+                // Atualizar outras abas
+                carregarDadosTabela();
+                atualizarListaSalas();
+            } else {
+                JOptionPane.showMessageDialog(this,
+                    "Erro ao excluir local. Verifique se existem reservas ativas.",
+                    "Erro", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    });
+    
+    botaoAtualizar.addActionListener(e -> {
+        String[] novosNomes = controllerReserva.obterNomesLocais();
+        listaLocaisExcluir.setListData(novosNomes);
+        areaInfoExcluir.setText("Selecione um local para ver as informações");
+        JOptionPane.showMessageDialog(this,
+            "Lista atualizada com sucesso!",
+            "Informação", JOptionPane.INFORMATION_MESSAGE);
+    });
+    
+    painelExcluir.add(painelEsquerdo, BorderLayout.WEST);
+    painelExcluir.add(painelDireito, BorderLayout.CENTER);
+    
+    return painelExcluir;
+}
 
     private JPanel criarPainelReservaSala() {
         JPanel painel = new JPanel(new BorderLayout());
@@ -293,7 +447,7 @@ public class Reservar extends JFrame {
 
     private void carregarDadosTabela() {
         modeloTabela.setRowCount(0);
-        List<LocaisController.SalaInfo> salas = controller.carregarLocaisDisponiveis();
+        List<LocaisController.SalaInfo> salas = controllerReserva.carregarLocaisDisponiveis();
 
         for (LocaisController.SalaInfo sala : salas) {
             modeloTabela.addRow(new Object[]{
@@ -306,14 +460,14 @@ public class Reservar extends JFrame {
     }
 
     private void atualizarListaSalas() {
-        String[] nomesSalas = controller.obterNomesLocais();
+        String[] nomesSalas = controllerReserva.obterNomesLocais();
         listaSalasDisponiveisJList.setListData(nomesSalas);
     }
 
     private void atualizarInfoSalaSelecionada() {
         String salaSelecionada = listaSalasDisponiveisJList.getSelectedValue();
         if (salaSelecionada != null) {
-            LocaisController.SalaInfo info = controller.obterInfoLocal(salaSelecionada);
+            LocaisController.SalaInfo info = controllerReserva.obterInfoLocal(salaSelecionada);
             if (info != null) {
                 areaInfoSala.setText(String.format(
                         "Nome: %s\n" +
@@ -338,7 +492,7 @@ public class Reservar extends JFrame {
         comboHorariosNovo.removeAllItems();
 
         if (salaSelecionada != null && dataSelecionada != null) {
-            String[] horariosDisponiveis = controller.obterHorariosDisponiveis(salaSelecionada, dataSelecionada);
+            String[] horariosDisponiveis = controllerReserva.obterHorariosDisponiveis(salaSelecionada, dataSelecionada);
 
             if (horariosDisponiveis.length == 0) {
                 comboHorariosNovo.addItem("Nenhum horário disponível");
@@ -356,7 +510,7 @@ public class Reservar extends JFrame {
         String horarioSelecionado = (String) comboHorariosNovo.getSelectedItem();
 
         // Validar através do controller
-        String erro = controller.validarDadosReserva(salaSelecionada, dataSelecionada, horarioSelecionado);
+        String erro = controllerReserva.validarDadosReserva(salaSelecionada, dataSelecionada, horarioSelecionado);
         if (erro != null) {
             JOptionPane.showMessageDialog(this, erro, "Erro de Validação", JOptionPane.WARNING_MESSAGE);
             return;
@@ -370,7 +524,7 @@ public class Reservar extends JFrame {
         }
 
         // Tentar realizar a reserva através do controller
-        if (controller.realizarReserva(salaSelecionada, dataSelecionada, horarioSelecionado)) {
+        if (controllerReserva.realizarReserva(salaSelecionada, dataSelecionada, horarioSelecionado)) {
             // Formatação da data para exibição
             SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
             String dataFormatada = sdf.format(dataSelecionada);
@@ -384,7 +538,7 @@ public class Reservar extends JFrame {
                                     "Usuário: %s\n\n" +
                                     "Guarde estas informações para referência.",
                             salaSelecionada, dataFormatada, horarioSelecionado,
-                            controller.obterNomeUsuarioLogado()),
+                            controllerReserva.obterNomeUsuarioLogado()),
                     "Reserva Confirmada",
                     JOptionPane.INFORMATION_MESSAGE);
 
@@ -406,7 +560,7 @@ public class Reservar extends JFrame {
         String tipo = (String) comboTipo.getSelectedItem();
 
         // Validar através do controller
-        String erro = controller.validarDadosCadastroLocal(nome, tipo, capacidadeStr, localizacao);
+        String erro = controllerReserva.validarDadosCadastroLocal(nome, tipo, capacidadeStr, localizacao);
         if (erro != null) {
             JOptionPane.showMessageDialog(this, erro, "Erro de Validação", JOptionPane.ERROR_MESSAGE);
             return;
@@ -416,7 +570,7 @@ public class Reservar extends JFrame {
             int capacidade = Integer.parseInt(capacidadeStr);
 
             // Cadastrar através do controller
-            if (controller.cadastrarLocal(nome, tipo, capacidade, localizacao)) {
+            if (controllerReserva.cadastrarLocal(nome, tipo, capacidade, localizacao)) {
                 // Limpar campos
                 campoNome.setText("");
                 campoCapacidade.setText("");
@@ -424,7 +578,7 @@ public class Reservar extends JFrame {
                 comboTipo.setSelectedIndex(0);
 
                 // Atualizar interfaces
-                controller.atualizarListaLocais();
+                controllerReserva.atualizarListaLocais();
                 carregarDadosTabela();
                 atualizarListaSalas();
 
