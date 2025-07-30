@@ -41,6 +41,7 @@ public class ReservaController {
     public boolean excluirLocal(String nomeLocal) {
         try {
             locaisDAO.excluirLocal(nomeLocal);
+             LoggerTXT.registrar("O espaço " + nomeLocal + " foi excluido por um administrador");
             return true;
         } catch (Exception e) {
             e.printStackTrace();
