@@ -37,14 +37,12 @@ public class LocaisDAO {
         }
     }
 
-    // Método excluirLocal seguindo o mesmo estilo do método adicionar
+    // Método excluirLocal
     public void excluirLocal(String nomeLocal) throws SQLException {
         // Comando SQL para excluir todas as reservas do local primeiro
         String sqlExcluirReservas = "DELETE FROM reservas WHERE nome_local = ?";
-        // Comando SQL para excluir o local
         String sqlExcluirLocal = "DELETE FROM locais WHERE nome = ?";
 
-        // Usa try-with-resources para abrir conexão
         try (Connection con = ConexaoDAO.conectar()) {
             
             // Inicia transação para garantir consistência
@@ -58,21 +56,17 @@ public class LocaisDAO {
                 stmtReservas.executeUpdate();
             }
             
-            // Depois, exclui o local
+            // exclui o local
             try (PreparedStatement stmtLocal = con.prepareStatement(sqlExcluirLocal)) {
-                // Define o parâmetro com o nome do local
                 stmtLocal.setString(1, nomeLocal);
-                // Executa a exclusão do local
                 stmtLocal.executeUpdate();
             }
             
-            // Se chegou até aqui, confirma a transação
+            // confirma a exclusão
             con.commit();
             
         } catch (SQLException e) {
-            // Em caso de erro, a transação é automaticamente desfeita
-            // quando a conexão é fechada pelo try-with-resources
-            throw e; // Relança a exceção para o método chamador tratar
+            throw e;
         }
     }
 
