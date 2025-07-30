@@ -15,113 +15,56 @@ public class Login extends JFrame {
 
     // ==================== CONFIGURAÇÕES DE LAYOUT E ESTILO ====================
 
-    /** Layout principal da janela - BorderLayout divide em regiões (norte, sul, centro, etc) */
-    final BorderLayout layout = new BorderLayout();
-
-    /** Cor azul claro personalizada para o tema da aplicação */
-    final Color azul_claro = new Color(64, 150, 255);
-
-    /** Fonte padrão para labels e textos */
-    final Font fonteLabel = new Font("Arial", Font.PLAIN, 14);
-
-    /** Painel principal que contém o formulário de login */
-    final JPanel formulario = new JPanel(new GridBagLayout());
-
-    /** Objeto para controlar o posicionamento dos componentes no GridBagLayout */
-    final GridBagConstraints posicao = new GridBagConstraints();
+    final BorderLayout layout = new BorderLayout();                              // Layout
+    final Color azul_claro = new Color(64, 150, 255);                   // Cor padrão que vamos usar
+    final Font fonteLabel = new Font("Arial", Font.PLAIN, 14);        // Fonte padrão que vamos usar
+    final JPanel formulario = new JPanel(new GridBagLayout());                   // Conteiner para centralizar os componentes
+    final GridBagConstraints posicao = new GridBagConstraints();                 // Posicao relat6iva do formulario
 
     // ==================== COMPONENTES DA INTERFACE ====================
 
-    /** Label para exibir mensagem de erro quando login/senha estão incorretos */
-    final JLabel dado_incorreto = new JLabel("E-mail ou senha incorretos");
+    final JLabel dado_incorreto = new JLabel("E-mail ou senha incorretos");            // Mensagem de erro
+    final Image icon = Toolkit.getDefaultToolkit().getImage("imagens/icone.png");   // icone da janela
+    final JLabel perfil = new JLabel(redimensionarImagem());                                // Imagem de perfil do login
+    final JLabel email = new JLabel("E-mail");                                         // Texto de email
+    final JTextField campo_email = new JTextField(20);                              // Campo para email
+    final JLabel senha = new JLabel("Senha");                                          // Texto senha
+    final JPasswordField campo_senha = new JPasswordField(20);                      // Campo senha (nao visivel)
+    final JButton login = new JButton("LOGIN");                                        // Botão de login
+    final JButton cadastro = new JButton("Cadastrar");                                 // Botão de cadastrar
+    final UsuarioController controller;                                                     // Contoller para validacao dos dados
 
-    /** Ícone da aplicação que aparece na barra de título */
-    final Image icon = Toolkit.getDefaultToolkit().getImage("imagens/icone.png");
-
-    /** Label que exibe a imagem de perfil redimensionada */
-    final JLabel perfil = new JLabel(redimensionarImagem());
-
-    /** Label "E-mail" para identificar o campo */
-    final JLabel email = new JLabel("E-mail");
-
-    /** Campo de texto onde o usuário digita o e-mail */
-    final JTextField campo_email = new JTextField(20);
-
-    /** Label "Senha" para identificar o campo */
-    final JLabel senha = new JLabel("Senha");
-
-    /** Campo de senha (caracteres ficam ocultos) */
-    final JPasswordField campo_senha = new JPasswordField(20);
-
-    /** Botão principal para efetuar login */
-    final JButton login = new JButton("LOGIN");
-
-    /** Botão para navegar para tela de cadastro */
-    final JButton cadastro = new JButton("Cadastrar");
-
-    // ==================== CONTROLLER ====================
-
-    /** Controller responsável pela lógica de negócio do usuário */
-    final UsuarioController controller;
-
-    /**
-     * Construtor da classe Login
-     * Inicializa todos os componentes e configura a interface
-     */
+    // ==================== CONSTRUTOR DO LOGIN ====================
     public Login() {
-        // ==================== CONFIGURAÇÕES BÁSICAS DA JANELA ====================
-
-        super("Gerenciador de Espaços");              // Define o título da janela
+        // Configurações básicas da tela
+        super("Gerenciador de Espaços");               // Define o título da janela
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);    // Fecha a aplicação ao fechar janela
-        setSize(750, 650);                            // Define largura e altura da janela
-        setLocationRelativeTo(null);                  // Centraliza a janela na tela
-        setIconImage(icon);                           // Define o ícone da janela
-        setLayout(layout);                            // Define o layout principal
-        formulario.setBackground(azul_claro);         // Define cor de fundo do formulário
-
-        // Inicializa o controller passando a referência desta view
-        controller = new UsuarioController(this);
-
-        // Chama método que aplica estilos aos componentes
-        estilizar();
+        setSize(750, 650);                     // Define largura e altura da janela
+        setLocationRelativeTo(null);                       // Centraliza a janela na tela
+        setIconImage(icon);                                // Define o ícone da janela
+        setLayout(layout);                                 // Define o layout principal
+        formulario.setBackground(azul_claro);              // Define cor de fundo do formulário
+        controller = new UsuarioController(this);    // Inicializa o controller passando a referência desta view
+        estilizar();                                      // Chama metodo que aplica estilos aos componentes
 
         // ==================== POSICIONAMENTO DOS COMPONENTES ====================
 
-        // Componentes centralizados
-        posicao.anchor = GridBagConstraints.CENTER;
-
-        // Posiciona a imagem de perfil (linha 1)
-        configurarPos(posicao, 1, 0, 30);
+        posicao.anchor = GridBagConstraints.CENTER;         // Componentes centralizados
+        configurarPos(posicao, 1, 0, 30);     // Posiciona a imagem de perfil (linha 1)
         formulario.add(perfil, posicao);
-
-        // Posiciona o botão de login (linha 7)
-        configurarPos(posicao, 7, 0, 30);
+        configurarPos(posicao, 7, 0, 30);     // Posiciona o botão de login (linha 7)
         formulario.add(login, posicao);
-
-        // Componentes alinhados à esquerda
-        posicao.anchor = GridBagConstraints.WEST;
-
-        // Label "E-mail" (linha 2)
-        configurarPos(posicao, 2, 0, 5);
+        posicao.anchor = GridBagConstraints.WEST;           // Componentes alinhados à esquerda
+        configurarPos(posicao, 2, 0, 5);      // Label "E-mail" (linha 2)
         formulario.add(email, posicao);
-
-        // Campo de e-mail (linha 3)
-        configurarPos(posicao, 3, 0, 20);
+        configurarPos(posicao, 3, 0, 20);     // Campo de e-mail (linha 3)
         formulario.add(campo_email, posicao);
-
-        // Label "Senha" (linha 4)
-        configurarPos(posicao, 4, 0, 5);
+        configurarPos(posicao, 4, 0, 5);      // Label "Senha" (linha 4)
         formulario.add(senha, posicao);
-
-        // Campo de senha (linha 5)
-        configurarPos(posicao, 5, 0, 20);
+        configurarPos(posicao, 5, 0, 20);     // Campo de senha (linha 5)
         formulario.add(campo_senha, posicao);
-
-        // Componentes alinhados à direita
-        posicao.anchor = GridBagConstraints.EAST;
-
-        // Botão cadastrar (linha 6)
-        configurarPos(posicao, 6, 0, 25);
+        posicao.anchor = GridBagConstraints.EAST;           // Componentes alinhados à direita
+        configurarPos(posicao, 6, 0, 25);     // Botão cadastrar (linha 6)
         formulario.add(cadastro, posicao);
 
         // ==================== EVENTOS DOS BOTÕES ====================
@@ -165,22 +108,16 @@ public class Login extends JFrame {
         setVisible(true);
     }
 
-    /**
-     * Configura a posição de um componente no GridBagLayout
-     * Define a linha e as margens do componente
-     */
+    // Configura a posição de um componente no GridBagLayout
     private void configurarPos(GridBagConstraints gbc, int y, int top, int bottom) {
         gbc.gridx = 0;    // Sempre na coluna 0 (única coluna)
         gbc.gridy = y;    // Define a linha
         gbc.insets = new Insets(top, 0, bottom, 0);  // Define margens (top, left, bottom, right)
     }
 
-    /**
-     * Aplica estilos visuais aos componentes da interface
-     * Configura cores, fontes, bordas e efeitos de hover
-     */
+    // Aplica estilos visuais aos componentes da interface
     private void estilizar() {
-        // ==================== IMAGEM DE PERFIL ====================
+        // Imagem de perfil
         perfil.setPreferredSize(new Dimension(200, 200));
 
         // ==================== LABELS DE TEXTO ====================
@@ -195,7 +132,7 @@ public class Login extends JFrame {
         dado_incorreto.setFont(fonteLabel);
 
         // ==================== CAMPOS DE TEXTO ====================
-        // Aplica estilo personalizado aos campos (método separado para reutilização)
+        // Aplica estilo personalizado aos campos (metodo separado para reutilização)
         configurarCampoTexto(campo_email);
         configurarCampoTexto(campo_senha);
 
@@ -256,13 +193,10 @@ public class Login extends JFrame {
         });
     }
 
-    /**
-     * Configura o estilo visual de um campo de texto
-     * Método reutilizável para manter consistência visual
-     */
+    // Método reutilizável para manter consistência visual
     private void configurarCampoTexto(JTextField campo) {
-        campo.setBackground(new Color(80, 160, 255));  // Cor de fundo azul mais escuro
-        campo.setForeground(Color.WHITE);               // Texto branco
+        campo.setBackground(new Color(80, 160, 255));         // Cor de fundo azul mais escuro
+        campo.setForeground(Color.WHITE);                             // Texto branco
         campo.setFont(new Font("Arial", Font.PLAIN, 16));  // Fonte maior para melhor legibilidade
 
         // Borda composta: linha branca na parte inferior + padding
@@ -275,10 +209,7 @@ public class Login extends JFrame {
         campo.setCaretColor(Color.WHITE);         // Cursor de texto branco
     }
 
-    /**
-     * Redimensiona a imagem de perfil para o tamanho desejado
-     * Retorna ImageIcon com a imagem redimensionada ou placeholder em caso de erro
-     */
+    //Redimensiona a imagem de perfil para o tamanho desejado
     private ImageIcon redimensionarImagem() {
         try {
             // Carrega a imagem original
@@ -297,18 +228,9 @@ public class Login extends JFrame {
     }
 
     // ==================== MÉTODOS GETTERS ====================
-
-    /**
-     * Obtém o texto digitado no campo de e-mail
-     */
     public String getEmailLogin() {
         return campo_email.getText();
     }
-
-    /**
-     * Obtém a senha digitada no campo de senha
-     * Converte char[] para String por segurança
-     */
     public String getSenhaLogin() {
         return new String(campo_senha.getPassword());
     }

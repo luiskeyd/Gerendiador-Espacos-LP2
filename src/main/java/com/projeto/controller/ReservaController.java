@@ -14,12 +14,17 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+/**
+ * Classe responsável por gerenciar as reservas de espaços
+ * Atua como intermediária entre a interface gráfica e os DAOs de reserva e locais
+ */
 public class ReservaController {
     private final LocaisDAO locaisDAO;
     private final ReservaDAO reservaDAO;
     private final LocaisController locaisController;
     private List<Locais> locaisDisponiveis;
 
+    // Construtor: inicializa os DAOs e controllers auxiliares
     public ReservaController() {
         this.locaisDAO = new LocaisDAO();
         this.reservaDAO = new ReservaDAO();
@@ -27,10 +32,12 @@ public class ReservaController {
         this.locaisDisponiveis = new ArrayList<>();
     }
 
+    // Carrega as salas disponíveis com informações básicas (nome, capacidade, etc)
     public List<LocaisController.SalaInfo> carregarLocaisDisponiveis() {
         return locaisController.carregarSalas();
     }
 
+    // Retorna os nomes de todos os locais disponíveis no banco
     public String[] obterNomesLocais() {
         try {
             locaisDisponiveis = locaisDAO.listarTodos();
@@ -43,11 +50,13 @@ public class ReservaController {
         }
     }
 
+    // Busca informações detalhadas de um local com base no nome
     public LocaisController.SalaInfo obterInfoLocal(String nomeLocal) {
         List<LocaisController.SalaInfo> salas = locaisController.carregarSalas();
         return locaisController.encontrarSalaPorNome(nomeLocal, salas);
     }
 
+    // Retorna os horários disponíveis para um local e data específicos
     public String[] obterHorariosDisponiveis(String nomeLocal, Date data) {
         if (nomeLocal == null || data == null) {
             return new String[0];
@@ -71,13 +80,13 @@ public class ReservaController {
 
         } catch (SQLException e) {
             System.err.println("Erro ao verificar disponibilidade: " + e.getMessage());
-            // Em caso de erro, retorna todos os horários
+            // Retorna todos os horários em caso de erro
             return new String[]{"08:00 - 10:00", "10:00 - 12:00", "14:00 - 16:00", "16:00 - 18:00"};
         }
     }
 
+    // Realiza a reserva de um espaço, gerando comprovante e registrando log
     public boolean realizarReserva(String nomeLocal, Date data, String horario) {
-        // Validações
         String erro = validarDadosReserva(nomeLocal, data, horario);
         if (erro != null) {
             System.err.println("Erro de validação: " + erro);
@@ -89,18 +98,18 @@ public class ReservaController {
             LocalDateTime inicio = converterParaLocalDateTime(data, partesHorario[0]);
             LocalDateTime fim = converterParaLocalDateTime(data, partesHorario[1]);
 
-            // Verificar disponibilidade novamente
+            // Verifica disponibilidade antes de confirmar reserva
             if (!reservaDAO.verificarDisponibilidade(nomeLocal, inicio, fim)) {
                 System.err.println("Horário não está mais disponível");
                 return false;
             }
 
-            // Criar e salvar reserva
+            // Cria e salva a reserva com nome do usuário logado
             String nomeUsuario = Sessao.getInstancia().getUsuarioLogado().getNome();
             Reserva novaReserva = new Reserva(nomeUsuario, nomeLocal, inicio, fim);
 
             reservaDAO.adicionar(novaReserva);
-            LoggerTXT.registrar("O espaço " + novaReserva.getNomeEspaco() + " foi reservado pelo usuário " + novaReserva.getNomeUsuario() + " das " + novaReserva.getHorarioInicio() + " as " + novaReserva.getHorarioFim());
+            LoggerTXT.registrar("O espaço " + novaReserva.getNomeEspaco() + " foi reservado pelo usuário " + nomeUsuario + " das " + novaReserva.getHorarioInicio() + " às " + novaReserva.getHorarioFim());
             ComprovanteGenerator.gerarComprovante(novaReserva);
             return true;
 
@@ -111,6 +120,7 @@ public class ReservaController {
         }
     }
 
+    // Valida os dados da reserva antes de enviar ao banco
     public String validarDadosReserva(String nomeLocal, Date data, String horario) {
         if (nomeLocal == null || nomeLocal.trim().isEmpty()) {
             return "Local é obrigatório";
@@ -124,7 +134,7 @@ public class ReservaController {
             return "Horário é obrigatório";
         }
 
-        // Verificar se data não é no passado
+        // Verifica se a data informada é no passado
         Date hoje = new Date();
         Calendar calHoje = Calendar.getInstance();
         calHoje.setTime(hoje);
@@ -140,6 +150,7 @@ public class ReservaController {
         return null; // Dados válidos
     }
 
+    // Converte uma data e string de horário para um objeto LocalDateTime
     private LocalDateTime converterParaLocalDateTime(Date data, String horario) {
         Calendar cal = Calendar.getInstance();
         cal.setTime(data);
@@ -156,28 +167,32 @@ public class ReservaController {
         return cal.getTime().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
     }
 
+    // Verifica se o usuário atual logado é administrador
     public boolean isUsuarioAdmin() {
         return Sessao.getInstancia().isAdmin();
     }
 
+    // Obtém o nome do usuário atualmente logado
     public String obterNomeUsuarioLogado() {
         return Sessao.getInstancia().getUsuarioLogado().getNome();
     }
 
-    // Métodos para cadastro de local - usando LocaisController diretamente
+    // Realiza o cadastro de uma nova sala utilizando o LocaisController
     public boolean cadastrarLocal(String nome, String tipo, int capacidade, String localizacao) {
         return locaisController.cadastrarSala(nome, tipo, capacidade, localizacao);
     }
 
+    // Valida os dados de cadastro da sala
     public String validarDadosCadastroLocal(String nome, String tipo, String capacidadeStr, String localizacao) {
         return locaisController.validarDadosCadastro(nome, tipo, capacidadeStr, localizacao);
     }
 
+    // Retorna os tipos possíveis de local (ex: Sala, Auditório, etc)
     public String[] getTiposLocal() {
         return locaisController.getTiposSala();
     }
 
-    // Método para atualizar lista interna após cadastro de novo local
+    // Atualiza a lista interna de locais disponíveis após cadastro de novo local
     public void atualizarListaLocais() {
         try {
             locaisDisponiveis = locaisDAO.listarTodos();

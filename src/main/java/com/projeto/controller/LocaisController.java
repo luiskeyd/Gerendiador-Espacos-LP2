@@ -8,10 +8,14 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Classe responsável por gerenciar as ações relacionadas aos locais (salas).
+ * Faz a ponte entre a camada de modelo (LocaisDAO) e a interface gráfica.
+ */
 public class LocaisController {
     final LocaisDAO locaisDAO = new LocaisDAO();
 
-    // Classe interna para representar dados da tabela de forma simplificada
+    // Classe interna para representar os dados das salas exibidos na tabela
     public static class SalaInfo {
         private final String nome;
         private final String tipo;
@@ -27,7 +31,7 @@ public class LocaisController {
             this.status = status;
         }
 
-        // Getters
+        // Getters para os atributos da sala
         public String getNome() { return nome; }
         public String getTipo() { return tipo; }
         public int getCapacidade() { return capacidade; }
@@ -35,6 +39,7 @@ public class LocaisController {
         public String getStatus() { return status; }
     }
 
+    // Carrega todas as salas do banco de dados e transforma em SalaInfo
     public List<SalaInfo> carregarSalas() {
         List<SalaInfo> salas = new ArrayList<>();
         try {
@@ -55,23 +60,27 @@ public class LocaisController {
         return salas;
     }
 
+    // Busca uma sala na lista com base no nome
     public SalaInfo encontrarSalaPorNome(String nome, List<SalaInfo> salas) {
         return salas.stream()
                 .filter(sala -> sala.getNome().equals(nome))
                 .findFirst()
                 .orElse(null);
     }
+
+    // Verifica se a sala está disponível
     public boolean isSalaDisponivel(SalaInfo sala) {
         return sala != null && "Disponível".equals(sala.getStatus());
     }
 
+    // Retorna os horários fixos disponíveis para reserva
     public String[] getHorariosDisponiveis() {
         return new String[]{"08:00-10:00", "10:00-12:00", "14:00-16:00", "16:00-18:00"};
     }
 
+    // Cadastra uma nova sala após validar os dados
     public boolean cadastrarSala(String nome, String tipo, int capacidade, String localizacao) {
         try {
-            // Validações
             if (nome == null || nome.trim().isEmpty()) {
                 throw new IllegalArgumentException("Nome é obrigatório");
             }
@@ -85,10 +94,10 @@ public class LocaisController {
                 throw new IllegalArgumentException("Capacidade deve ser maior que zero");
             }
 
-            // Criar instância do tipo correto
+            // Cria a instância do tipo específico de sala
             Locais novaSala = criarSalaPorTipo(nome.trim(), tipo, capacidade, localizacao.trim());
 
-            // Adicionar no banco
+            // Adiciona a sala ao banco de dados
             locaisDAO.adicionar(novaSala);
             LoggerTXT.registrar("O espaço " + novaSala.getNome() + " foi criado por um adiministrador");
             return true;
@@ -100,6 +109,7 @@ public class LocaisController {
         }
     }
 
+    // Cria uma instância da classe correta de sala com base no tipo
     private Locais criarSalaPorTipo(String nome, String tipo, int capacidade, String localizacao) {
         return switch (tipo) {
             case "Laboratorio" -> new Laboratorio(nome, capacidade, localizacao, "Disponível");
@@ -110,6 +120,7 @@ public class LocaisController {
         };
     }
 
+    // Metodo reservado para processar a reserva (pode ser expandido futuramente)
     public boolean processarReserva(String nomeSala, String horario) {
         try {
             System.out.println("Reserva processada - Sala: " + nomeSala + ", Horário: " + horario);
@@ -122,6 +133,7 @@ public class LocaisController {
         }
     }
 
+    // Valida os dados fornecidos pelo formulário de cadastro de sala
     public String validarDadosCadastro(String nome, String tipo, String capacidadeStr, String localizacao) {
         if (nome == null || nome.trim().isEmpty()) {
             return "Nome é obrigatório";
@@ -142,9 +154,10 @@ public class LocaisController {
             return "Capacidade deve ser um número válido";
         }
 
-        return null; // Dados válidos
+        return null;
     }
 
+    // Retorna os tipos de sala disponíveis para seleção
     public String[] getTiposSala() {
         return new String[]{
                 "Sala_de_aula", "Laboratorio", "Sala_de_reuniao", "Quadra", "Auditorio"
