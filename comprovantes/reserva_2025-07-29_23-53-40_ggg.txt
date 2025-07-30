@@ -1,0 +1,6 @@
+=== COMPROVANTE DE RESERVA ===
+Nome do Espaço: Lab 3
+Nome do Usuário: ggg
+Início: 2025-08-09T08:00
+Fim: 2025-08-09T10:00
+==============================

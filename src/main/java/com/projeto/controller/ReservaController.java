@@ -3,6 +3,9 @@ package com.projeto.controller;
 import com.projeto.DAOs.LocaisDAO;
 import com.projeto.DAOs.ReservaDAO;
 import com.projeto.model.*;
+import com.projeto.util.ComprovanteGenerator;
+import com.projeto.util.LoggerTXT;
+
 import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -97,6 +100,8 @@ public class ReservaController {
             Reserva novaReserva = new Reserva(nomeUsuario, nomeLocal, inicio, fim);
 
             reservaDAO.adicionar(novaReserva);
+            LoggerTXT.registrar("O espaço " + novaReserva.getNomeEspaco() + " foi reservado pelo usuário " + novaReserva.getNomeUsuario() + " das " + novaReserva.getHorarioInicio() + " as " + novaReserva.getHorarioFim());
+            ComprovanteGenerator.gerarComprovante(novaReserva);
             return true;
 
         } catch (SQLException e) {

@@ -2,6 +2,8 @@ package com.projeto.controller;
 
 import com.projeto.DAOs.LocaisDAO;
 import com.projeto.model.*;
+import com.projeto.util.LoggerTXT;
+
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -88,6 +90,7 @@ public class LocaisController {
 
             // Adicionar no banco
             locaisDAO.adicionar(novaSala);
+            LoggerTXT.registrar("O espaço " + novaSala.getNome() + " foi criado por um adiministrador");
             return true;
 
         } catch (Exception e) {

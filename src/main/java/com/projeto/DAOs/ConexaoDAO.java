@@ -1,5 +1,7 @@
 package com.projeto.DAOs;
 
+import com.projeto.util.LoggerTXT;
+
 import java.sql.*;
 
 public class ConexaoDAO {

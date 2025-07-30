@@ -3,6 +3,7 @@ package com.projeto.controller;
 import com.projeto.DAOs.UsuarioDAO;
 import com.projeto.model.Usuario;
 import com.projeto.model.Sessao;
+import com.projeto.util.LoggerTXT;
 import com.projeto.view.Login;
 
 public class UsuarioController {
@@ -32,6 +33,7 @@ public class UsuarioController {
             Usuario usuario = model.buscarPorCredenciais(email, senha);
             if (usuario != null) {
                 Sessao.getInstancia().setUsuarioLogado(usuario);
+                LoggerTXT.registrar("O usuario " + usuario.getNome() + " se conectou!");
                 return true;
             } else {
                 return false;
@@ -62,6 +64,7 @@ public class UsuarioController {
             // Criar e adicionar novo usuário
             Usuario novoUsuario = new Usuario(nome.trim(), email.trim(), tipo, senha);
             model.adicionar(novoUsuario);
+            LoggerTXT.registrar("O usuário " + novoUsuario.getNome()+ " se cadastrou!");
             return true;
 
         } catch (Exception e) {
