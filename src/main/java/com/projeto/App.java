@@ -1,10 +1,7 @@
 package com.projeto;
 import com.projeto.view.*;
-
-public class App 
-{
-    public static void main( String[] args )
+// Só para chamar a interface
+public class App { public static void main( String[] args )
     {
         new Login();
-    }
-}
+    }}

@@ -5,59 +5,51 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Classe responsável pelo acesso ao banco de dados para operações relacionadas aos locais.
+ * Fornece métodos para adicionar novos locais e listar todos os locais cadastrados.
+ * Também cria objetos do tipo correto (Sala_de_aula, Laboratorio, etc.) a partir dos dados do banco.
+ */
 public class LocaisDAO {
+    // Metodo para adicionar um novo local no banco de dados
+    public void adicionar(Locais local) throws SQLException {
+        // Comando SQL para inserir os dados do local na tabela locais
+        String sql = "INSERT INTO locais (nome, tipo, capacidade, localizacao, reservado) VALUES (?, ?, ?, ?, ?)";
 
-public void adicionar(Locais local) throws SQLException {
-    String sql = "INSERT INTO locais (nome, tipo, capacidade, localizacao, reservado) VALUES (?, ?, ?, ?, ?)";
-
-    try (Connection con = ConexaoDAO.conectar();
-         PreparedStatement stmt = con.prepareStatement(sql)) {
-
-        stmt.setString(1, local.getNome());
-        stmt.setString(2, local.getClass().getSimpleName());
-        stmt.setInt(3, local.getCapacidade());
-        stmt.setString(4, local.getLocalizacao());
-        stmt.setInt(5, 0); // 0 = não reservado por padrão
-
-        stmt.executeUpdate();
-    }
-}
-
-
-    public void remover(int id) throws SQLException {
-        String sql = "DELETE FROM locais WHERE id = ?";
-
+        // Usa try-with-resources para abrir conexão e preparar comando
         try (Connection con = ConexaoDAO.conectar();
              PreparedStatement stmt = con.prepareStatement(sql)) {
 
-            stmt.setInt(1, id);
+            // Define os parâmetros com os dados do objeto local
+            stmt.setString(1, local.getNome());
+
+            // Usa o nome da classe do objeto como tipo (ex: Sala_de_aula)
+            stmt.setString(2, local.getClass().getSimpleName());
+
+            stmt.setInt(3, local.getCapacidade());
+            stmt.setString(4, local.getLocalizacao());
+
+            // Por padrão, o local é cadastrado como não reservado (0)
+            stmt.setInt(5, 0);
+
+            // Executa a inserção no banco
             stmt.executeUpdate();
         }
     }
 
-    public Locais buscaNome(String nome) throws SQLException {
-        String sql = "SELECT * FROM locais WHERE nome = ?";
-
-        try (Connection con = ConexaoDAO.conectar();
-             PreparedStatement stmt = con.prepareStatement(sql)) {
-            stmt.setString(1, nome);
-            ResultSet rs = stmt.executeQuery();
-
-            if (rs.next()) {
-                return criarObjetoLocal(rs);
-            }
-        }
-        return null;
-    }
-
+    // Metodo para listar todos os locais cadastrados no banco
     public List<Locais> listarTodos() throws SQLException {
         List<Locais> lista = new ArrayList<>();
+
+        // Comando SQL para selecionar todos os locais
         String sql = "SELECT * FROM locais";
 
+        // Usa try-with-resources para abrir conexão, criar statement e executar consulta
         try (Connection con = ConexaoDAO.conectar();
              Statement stmt = con.createStatement();
              ResultSet rs = stmt.executeQuery(sql)) {
 
+            // Para cada linha do resultado, cria objeto local correspondente e adiciona na lista
             while (rs.next()) {
                 Locais local = criarObjetoLocal(rs);
                 if (local != null) {
@@ -66,48 +58,31 @@ public void adicionar(Locais local) throws SQLException {
             }
         }
 
+        // Retorna a lista completa de locais
         return lista;
     }
 
-    public void atualizar(Locais local, int id) throws SQLException {
-        String sql = "UPDATE locais SET nome = ?, tipo = ?, capacidade = ?, localizacao = ?, " +
-                "reservado = ? WHERE id = ?";
-
-        try (Connection con = ConexaoDAO.conectar();
-             PreparedStatement stmt = con.prepareStatement(sql)) {
-
-            stmt.setString(1, local.getNome());
-            stmt.setString(2, local.getClass().getSimpleName());
-            stmt.setInt(3, local.getCapacidade());
-            stmt.setString(4, local.getLocalizacao());
-            stmt.setString(5, local.getReservado());
-            stmt.setInt(6, id);
-
-            stmt.executeUpdate();
-        }
-    }
-
+    // Metodo privado que cria um objeto do tipo correto de local a partir de um ResultSet
     private Locais criarObjetoLocal(ResultSet rs) throws SQLException {
+        // Obtém os dados do registro
         String tipo = rs.getString("tipo");
         String nome = rs.getString("nome");
         int capacidade = rs.getInt("capacidade");
         String localizacao = rs.getString("localizacao");
         String reservado = rs.getString("reservado");
 
-        switch (tipo) {
-            case "Sala_de_aula":
-                return new Sala_de_aula(nome, capacidade, localizacao, reservado);
-            case "Laboratorio":
-                return new Laboratorio(nome, capacidade, localizacao, reservado);
-            case "Sala_de_reuniao":
-                return new Sala_de_reuniao(nome, capacidade, localizacao, reservado);
-            case "Quadra":
-                return new Quadra(nome, capacidade, localizacao, reservado);
-            case "Auditorio":
-                return new Auditorio(nome, capacidade, localizacao, reservado);
-            default:
+        // Retorna o objeto correto conforme o tipo (usando switch expression do Java 14+)
+        return switch (tipo) {
+            case "Sala_de_aula" -> new Sala_de_aula(nome, capacidade, localizacao, reservado);
+            case "Laboratorio" -> new Laboratorio(nome, capacidade, localizacao, reservado);
+            case "Sala_de_reuniao" -> new Sala_de_reuniao(nome, capacidade, localizacao, reservado);
+            case "Quadra" -> new Quadra(nome, capacidade, localizacao, reservado);
+            case "Auditorio" -> new Auditorio(nome, capacidade, localizacao, reservado);
+            default -> {
+                // Se o tipo for desconhecido, imprime erro e retorna null
                 System.err.println("Tipo de local desconhecido: " + tipo);
-                return null;
-        }
+                yield null;
+            }
+        };
     }
 }
