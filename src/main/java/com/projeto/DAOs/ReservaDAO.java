@@ -4,11 +4,9 @@ import com.projeto.model.Reserva;
 
 import java.sql.*;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 public class ReservaDAO {
-    private static final String URL = "jdbc:mysql://localhost:3306/gerenciador";
+    private static final String URL = "jdbc:mysql://26.183.126.113:3306/gerenciador";
     private static final String USER = "root";
     private static final String PASSWORD = "1234";
 
@@ -28,27 +26,6 @@ public class ReservaDAO {
 
             stmt.executeUpdate();
         }
-    }
-
-    public List<Reserva> listarTodas() throws SQLException {
-        List<Reserva> reservas = new ArrayList<>();
-        String sql = "SELECT * FROM reservas";
-        try (Connection conn = getConnection();
-             Statement stmt = conn.createStatement();
-             ResultSet rs = stmt.executeQuery(sql)) {
-
-            while (rs.next()) {
-                Reserva r = new Reserva(
-                    rs.getInt("id"),
-                    rs.getString("nome_usuario"),
-                    rs.getString("nome_espaco"),
-                    rs.getTimestamp("horario_inicio").toLocalDateTime(),
-                    rs.getTimestamp("horario_fim").toLocalDateTime()
-                );
-                reservas.add(r);
-            }
-        }
-        return reservas;
     }
 
     public boolean verificarDisponibilidade(String nomeEspaco, LocalDateTime inicio, LocalDateTime fim) throws SQLException {
