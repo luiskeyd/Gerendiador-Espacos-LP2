@@ -12,12 +12,6 @@ import java.awt.event.MouseEvent;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Calendar;
-
-// Imports do JCalendar
-import com.toedter.calendar.JDateChooser;
 
 // Imports do JCalendar
 import com.toedter.calendar.JDateChooser;
@@ -510,10 +504,11 @@ public class Reservar extends JFrame {
             public void mouseEntered(MouseEvent e) {
                 botao.setForeground(new Color(200, 220, 255));
             }
+
+            public void mouseExited(MouseEvent e) {
+                botao.setForeground(Color.WHITE);
+            }
         });
-
-
-        return painel;
     }
 
     private JLabel criarLabelBranco(String texto) {
@@ -521,8 +516,6 @@ public class Reservar extends JFrame {
         label.setFont(fonteLabel);
         label.setForeground(Color.WHITE);
         return label;
-        label.setFont(fonteLabel);
-        label.setForeground(Color.WHITE);
     }
 
     private void configurarPos(GridBagConstraints gbc, int y, int x, int top, int bottom) {
