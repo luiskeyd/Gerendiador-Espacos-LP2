@@ -138,7 +138,7 @@ public class Reservar extends JFrame {
         painelPrincipal.add(painelSuperior, BorderLayout.NORTH);
         painelPrincipal.add(abas, BorderLayout.CENTER);
     }
-
+    //painel de exclusão
     private JPanel criarPainelExcluirLocal(){
         JPanel painelExcluir = new JPanel(new BorderLayout());
         painelExcluir.setBackground(azul_claro);
@@ -221,7 +221,7 @@ public class Reservar extends JFrame {
                         "Tipo: %s\n" +
                         "Capacidade: %d pessoas\n" +
                         "Localização: %s\n\n" +
-                        "⚠️ ATENÇÃO: Esta ação não pode ser desfeita!\n" +
+                        "ATENÇÃO: Esta ação não pode ser desfeita!\n" +
                         "Todas as reservas deste local serão canceladas.",
                         info.getNome(),
                         info.getTipo(),

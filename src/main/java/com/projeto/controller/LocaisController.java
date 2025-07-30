@@ -99,7 +99,7 @@ public class LocaisController {
 
             // Adiciona a sala ao banco de dados
             locaisDAO.adicionar(novaSala);
-            LoggerTXT.registrar("O espaço " + novaSala.getNome() + " foi criado por um adiministrador");
+            LoggerTXT.registrar("O espaço " + novaSala.getNome() + " foi criado por " + Sessao.getInstancia().getUsuarioLogado().getNome() );
             return true;
 
         } catch (Exception e) {

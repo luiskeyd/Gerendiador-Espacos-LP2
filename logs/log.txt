@@ -12,3 +12,27 @@
 [2025-07-30 09:48:06] O espaço Sala 301 foi criado por um adiministrador
 [2025-07-30 09:48:37] O espaço Sala 301 foi excluido por um administrador
 [2025-07-30 09:49:19] O espaço Casa do meu pai foi excluido por um administrador
+[2025-07-30 09:53:47] O usuário glezier se conectou!
+[2025-07-30 09:54:08] O espaço Camp Nou foi reservado pelo usuário glezier das 2026-12-31T08:00 às 2026-12-31T10:00
+[2025-07-30 09:54:08] Comprovante da reserva gerado.
+[2025-07-30 09:55:13] O espaço Camp Nou foi reservado pelo usuário glezier das 2025-07-31T16:00 às 2025-07-31T18:00
+[2025-07-30 09:55:13] Comprovante da reserva gerado.
+[2025-07-30 09:59:01] O usuário glezier se conectou!
+[2025-07-30 10:00:02] O usuário miqmiq se conectou!
+[2025-07-30 10:08:19] O usuário glezier se conectou!
+[2025-07-30 10:11:41] O usuário glezier se conectou!
+[2025-07-30 10:17:40] O usuário glezier se conectou!
+[2025-07-30 10:19:35] O usuário glezier se conectou!
+[2025-07-30 10:19:57] O espaço Sala 300 foi criado por glezier
+[2025-07-30 10:21:21] O espaço Sala 300 foi criado por glezier
+[2025-07-30 10:29:01] O usuário glezier se conectou!
+[2025-07-30 10:41:31] O usuário glezier se conectou!
+[2025-07-30 10:42:04] O espaço Castelão foi criado por glezier
+[2025-07-30 10:50:40] O usuário glezier se conectou!
+[2025-07-30 10:51:00] O espaço sei la foi criado por glezier
+[2025-07-30 10:51:49] O espaço sei la foi excluido porglezier
+[2025-07-30 10:52:16] O espaço sei lá foi criado por glezier
+[2025-07-30 10:59:19] O usuário glezier se conectou!
+[2025-07-30 10:59:49] O espaço sei lá foi excluido porglezier
+[2025-07-30 11:13:48] O usuário glezier se conectou!
+[2025-07-30 11:15:55] O usuário glezier se conectou!

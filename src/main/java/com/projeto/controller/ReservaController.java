@@ -5,6 +5,7 @@ import com.projeto.DAOs.ReservaDAO;
 import com.projeto.model.*;
 import com.projeto.util.ComprovanteGenerator;
 import com.projeto.util.LoggerTXT;
+import com.projeto.model.Sessao;
 
 import java.sql.SQLException;
 import java.time.LocalDateTime;
@@ -13,6 +14,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+
 
 /**
  * Classe responsável por gerenciar as reservas de espaços
@@ -41,7 +43,7 @@ public class ReservaController {
     public boolean excluirLocal(String nomeLocal) {
         try {
             locaisDAO.excluirLocal(nomeLocal);
-             LoggerTXT.registrar("O espaço " + nomeLocal + " foi excluido por um administrador");
+             LoggerTXT.registrar("O espaço " + nomeLocal + " foi excluido por" + Sessao.getInstancia().getUsuarioLogado().getNome() );
             return true;
         } catch (Exception e) {
             e.printStackTrace();
