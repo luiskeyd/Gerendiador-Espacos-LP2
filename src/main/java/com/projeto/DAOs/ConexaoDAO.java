@@ -4,7 +4,7 @@ import java.sql.*;
 
 public class ConexaoDAO {
     // Configurações do banco de dados
-    private static final String URL = "jdbc:mysql://26.183.126.113:3306/gerenciador";
+    private static final String URL = "jdbc:mysql://localhost:3306/gerenciador";
     private static final String USER = "root";
     private static final String PASSWORD = "1234";
 

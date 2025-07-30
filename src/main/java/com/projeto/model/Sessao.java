@@ -16,6 +16,10 @@ public class Sessao {
         this.usuarioLogado = usuario;
     }
 
+    public Usuario getUsuarioLogado(){
+        return this.usuarioLogado;
+    }
+
     public boolean isAdmin() {
         return usuarioLogado != null && "ADMIN".equalsIgnoreCase(usuarioLogado.getTipo());
     }

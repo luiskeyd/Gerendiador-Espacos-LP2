@@ -8,9 +8,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ReservaDAO {
-    private static final String URL = "jdbc:mysql://localhost:3306/reserva_espacos";
+    private static final String URL = "jdbc:mysql://localhost:3306/gerenciador";
     private static final String USER = "root";
-    private static final String PASSWORD = "12345";
+    private static final String PASSWORD = "1234";
 
     private Connection getConnection() throws SQLException {
         return DriverManager.getConnection(URL, USER, PASSWORD);
